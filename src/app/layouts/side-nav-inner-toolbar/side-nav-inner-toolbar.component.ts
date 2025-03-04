@@ -4,10 +4,16 @@ import { CommonModule } from '@angular/common';
 
 import { DxTreeViewTypes } from 'devextreme-angular/ui/tree-view';
 import { DxDrawerModule, DxDrawerTypes } from 'devextreme-angular/ui/drawer';
-import { DxScrollViewModule, DxScrollViewComponent } from 'devextreme-angular/ui/scroll-view';
+import {
+  DxScrollViewModule,
+  DxScrollViewComponent,
+} from 'devextreme-angular/ui/scroll-view';
 import { DxToolbarModule, DxToolbarTypes } from 'devextreme-angular/ui/toolbar';
 
-import { SideNavigationMenuModule, HeaderModule } from '../../shared/components';
+import {
+  SideNavigationMenuModule,
+  HeaderModule,
+} from '../../shared/components';
 import { ScreenService } from '../../shared/services';
 import { ThemeService } from '../../shared/services/theme.service';
 
@@ -15,10 +21,11 @@ import { ThemeService } from '../../shared/services/theme.service';
   selector: 'app-side-nav-inner-toolbar',
   templateUrl: './side-nav-inner-toolbar.component.html',
   styleUrls: ['./side-nav-inner-toolbar.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class SideNavInnerToolbarComponent implements OnInit {
-  @ViewChild(DxScrollViewComponent, { static: true }) scrollView!: DxScrollViewComponent;
+  @ViewChild(DxScrollViewComponent, { static: true })
+  scrollView!: DxScrollViewComponent;
   selectedRoute = '';
 
   menuOpened!: boolean;
@@ -33,16 +40,20 @@ export class SideNavInnerToolbarComponent implements OnInit {
   shaderEnabled = false;
   swatchClassName = 'dx-swatch-additional';
 
-  constructor(protected themeService: ThemeService, private screen: ScreenService, private router: Router) {
+  constructor(
+    protected themeService: ThemeService,
+    private screen: ScreenService,
+    private router: Router
+  ) {
     themeService.isDark.subscribe((isDark) => {
       this.swatchClassName = 'dx-swatch-additional' + (isDark ? '-dark' : '');
-    })
+    });
   }
 
   ngOnInit() {
     this.menuOpened = this.screen.sizes['screen-large'];
 
-    this.router.events.subscribe(val => {
+    this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         this.selectedRoute = val.urlAfterRedirects.split('?')[0];
       }
@@ -66,7 +77,7 @@ export class SideNavInnerToolbarComponent implements OnInit {
   toggleMenu = (e: DxToolbarTypes.ItemClickEvent) => {
     this.menuOpened = !this.menuOpened;
     e.event?.stopPropagation();
-  }
+  };
 
   get hideMenuAfterNavigation() {
     return this.menuMode === 'overlap' || this.temporaryMenuOpened;
@@ -107,8 +118,15 @@ export class SideNavInnerToolbarComponent implements OnInit {
 }
 
 @NgModule({
-  imports: [ SideNavigationMenuModule, DxDrawerModule, HeaderModule, DxToolbarModule, DxScrollViewModule, CommonModule ],
-  exports: [ SideNavInnerToolbarComponent ],
-  declarations: [ SideNavInnerToolbarComponent ]
+  imports: [
+    SideNavigationMenuModule,
+    DxDrawerModule,
+    HeaderModule,
+    DxToolbarModule,
+    DxScrollViewModule,
+    CommonModule,
+  ],
+  exports: [SideNavInnerToolbarComponent],
+  declarations: [SideNavInnerToolbarComponent],
 })
-export class SideNavInnerToolbarModule { }
+export class SideNavInnerToolbarModule {}
