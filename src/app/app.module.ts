@@ -21,6 +21,8 @@ import {
   AppInfoService,
   PermitsService,
 } from './shared/services';
+import { AuthService, ScreenService, AppInfoService } from './shared/services';
+
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -41,6 +43,7 @@ import { AppRoutingModule } from './app-routing.module';
     UnauthenticatedContentModule,
     AppRoutingModule,
   ],
+
   providers: [AuthService, ScreenService, AppInfoService, PermitsService],
   bootstrap: [AppComponent],
 })

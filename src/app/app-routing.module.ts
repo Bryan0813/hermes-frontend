@@ -7,6 +7,7 @@ import {
   ChangePasswordFormComponent,
 } from './shared/components';
 import { AuthGuardService } from './shared/services';
+
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
@@ -22,6 +23,18 @@ const routes: Routes = [
   {
     path: 'roles',
     component: RolesComponent,
+import {
+  CategoryServiceComponent,
+  HomeComponent,
+  ProfileComponent,
+  TasksComponent,
+} from './pages';
+import { CategoryServiceService } from './shared/services/modules';
+
+const routes: Routes = [
+  {
+    path: 'category-services',
+    component: CategoryServiceComponent,
     canActivate: [AuthGuardService],
   },
   {
@@ -81,5 +94,9 @@ const routes: Routes = [
     TasksComponent,
     RolesComponent,
   ],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
+  providers: [AuthGuardService, CategoryServiceService],
+  exports: [RouterModule],
+  declarations: [],
 })
 export class AppRoutingModule {}
