@@ -1,0 +1,60 @@
+<h2>Categorias</h2>
+
+<div class="container">
+  <section>
+    <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
+    </dx-button>
+  </section>
+  <dx-data-grid
+    [dataSource]="categoryServices"
+    [showBorders]="false"
+    [columnAutoWidth]="true"
+    [columnHidingEnabled]="true"
+    [remoteOperations]="true"
+    keyExpr="id"
+    class="dx-card content-block"
+    width="100%"
+  >
+    <!-- opciones de la tabla -->
+
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-search-panel
+      [visible]="true"
+      [highlightCaseSensitive]="true"
+    ></dxo-search-panel>
+    <!-- <dxo-editing [allowUpdating]="true" [allowDeleting]="true"></dxo-editing> -->
+
+    <!-- Columnas -->
+    <dxi-column
+      dataField="id"
+      dataType="number"
+      width="100"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="name"
+      dataType="string"
+      width="500"
+      alignment="left"
+    ></dxi-column>
+
+    <!-- botones de accion -->
+    <dxi-column type="buttons" width="100" alignment="left">
+      <dxi-button name="edit" [visible]="true" [onClick]="showPopup">
+      </dxi-button>
+      <dxi-button
+        name="delete"
+        [visible]="true"
+        [onClick]="deleteCategoryService"
+      >
+      </dxi-button>
+    </dxi-column>
+
+    <dxo-paging [pageSize]="5"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [showInfo]="true"
+      [visible]="true"
+    ></dxo-pager>
+  </dx-data-grid>
+</div>

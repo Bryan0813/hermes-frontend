@@ -1,22 +1,3 @@
 <h2>Dashboard</h2>
 <section>
-  <article>
-    <dx-pie-chart id="pie" type="doughnut" title="Most city visited for mounth" [dataSource]="populationByCity">
-      <dxi-series argumentField="region">
-        <dxo-label [visible]="true" format="millions">
-          <dxo-connector [visible]="true"></dxo-connector>
-        </dxo-label>
-      </dxi-series>
-      <dxo-export [enabled]="true"></dxo-export>
-      <dxo-legend [margin]="0" horizontalAlignment="right" verticalAlignment="top"></dxo-legend>
-      <dxo-tooltip [enabled]="true" [customizeTooltip]="customizeTooltip" format="millions">
-      </dxo-tooltip>
-    </dx-pie-chart>
-  </article>
-  <article>
-    <dx-chart id="chart" title="Packages for mounth" [dataSource]="packagesByMonth">
-      <dxi-series argumentField="month" valueField="packages" name="Packages" type="bar" color="#ffaa66">
-      </dxi-series>
-    </dx-chart>
-  </article>
 </section>
