@@ -7,6 +7,22 @@ import {
   ChangePasswordFormComponent,
 } from './shared/components';
 import { AuthGuardService } from './shared/services';
+
+import { HomeComponent } from './pages/home/home.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { TasksComponent } from './pages/tasks/tasks.component';
+import {
+  DxChartModule,
+  DxDataGridModule,
+  DxFormModule,
+  DxPieChartModule,
+} from 'devextreme-angular';
+import { RolesComponent } from './pages/roles/roles.component';
+
+const routes: Routes = [
+  {
+    path: 'roles',
+    component: RolesComponent,
 import {
   CategoryServiceComponent,
   HomeComponent,
@@ -63,6 +79,21 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  imports: [
+    RouterModule.forRoot(routes, { useHash: true }),
+    DxPieChartModule,
+    DxChartModule,
+    DxDataGridModule,
+    DxFormModule,
+  ],
+  providers: [AuthGuardService],
+  exports: [RouterModule],
+  declarations: [
+    HomeComponent,
+    ProfileComponent,
+    TasksComponent,
+    RolesComponent,
+  ],
   imports: [RouterModule.forRoot(routes, { useHash: true })],
   providers: [AuthGuardService, CategoryServiceService],
   exports: [RouterModule],
