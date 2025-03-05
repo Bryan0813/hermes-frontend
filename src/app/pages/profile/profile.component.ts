@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
+import { DxFormModule } from 'devextreme-angular';
 
 @Component({
   templateUrl: 'profile.component.html',
@@ -32,3 +33,9 @@ export class ProfileComponent {
     };
   }
 }
+@NgModule({
+  declarations: [ProfileComponent],
+  imports: [DxFormModule],
+  exports: [ProfileComponent],
+})
+export class ProfileModule {}
