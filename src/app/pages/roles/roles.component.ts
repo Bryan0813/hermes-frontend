@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PermitsService } from '../../shared/services';
+import { PermitsService } from '../../shared/services/modules';
 
 @Component({
   selector: 'app-roles',

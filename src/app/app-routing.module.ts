@@ -18,20 +18,14 @@ import {
   DxPieChartModule,
 } from 'devextreme-angular';
 import { RolesComponent } from './pages/roles/roles.component';
+import { CategoryServiceComponent } from './pages/category-service/category-service.component';
 
 const routes: Routes = [
   {
     path: 'roles',
     component: RolesComponent,
-import {
-  CategoryServiceComponent,
-  HomeComponent,
-  ProfileComponent,
-  TasksComponent,
-} from './pages';
-import { CategoryServiceService } from './shared/services/modules';
-
-const routes: Routes = [
+    canActivate: [AuthGuardService],
+  },
   {
     path: 'category-services',
     component: CategoryServiceComponent,
@@ -88,15 +82,6 @@ const routes: Routes = [
   ],
   providers: [AuthGuardService],
   exports: [RouterModule],
-  declarations: [
-    HomeComponent,
-    ProfileComponent,
-    TasksComponent,
-    RolesComponent,
-  ],
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
-  providers: [AuthGuardService, CategoryServiceService],
-  exports: [RouterModule],
-  declarations: [],
+  // declarations: [HomeComponent, ProfileComponent, RolesComponent],
 })
 export class AppRoutingModule {}
