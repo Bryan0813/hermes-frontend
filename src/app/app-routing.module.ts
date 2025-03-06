@@ -7,15 +7,25 @@ import {
   ChangePasswordFormComponent,
 } from './shared/components';
 import { AuthGuardService } from './shared/services';
+
+import { HomeComponent } from './pages/home/home.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { TasksComponent } from './pages/tasks/tasks.component';
 import {
-  CategoryServiceComponent,
-  HomeComponent,
-  ProfileComponent,
-  TasksComponent,
-} from './pages';
-import { CategoryServiceService } from './shared/services/modules';
+  DxChartModule,
+  DxDataGridModule,
+  DxFormModule,
+  DxPieChartModule,
+} from 'devextreme-angular';
+import { RolesComponent } from './pages/roles/roles.component';
+import { CategoryServiceComponent } from './pages/category-service/category-service.component';
 
 const routes: Routes = [
+  {
+    path: 'roles',
+    component: RolesComponent,
+    canActivate: [AuthGuardService],
+  },
   {
     path: 'category-services',
     component: CategoryServiceComponent,
@@ -63,9 +73,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true })],
-  providers: [AuthGuardService, CategoryServiceService],
+  imports: [
+    RouterModule.forRoot(routes, { useHash: true }),
+    DxPieChartModule,
+    DxChartModule,
+    DxDataGridModule,
+    DxFormModule,
+  ],
+  providers: [AuthGuardService],
   exports: [RouterModule],
-  declarations: [],
+  // declarations: [HomeComponent, ProfileComponent, RolesComponent],
 })
 export class AppRoutingModule {}

@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, NgModule } from '@angular/core';
 import { AuthService, ScreenService, AppInfoService } from './shared/services';
 
 @Component({

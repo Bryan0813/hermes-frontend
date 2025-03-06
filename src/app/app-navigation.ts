@@ -5,6 +5,12 @@ export const navigation = [
     icon: 'home',
   },
   {
+    text: 'Roles',
+    path: '/roles',
+    icon: 'user',
+
+  },
+  {
     text: 'Examples',
     icon: 'folder',
     items: [
@@ -23,4 +29,5 @@ export const navigation = [
     path: '/category-services',
     icon: 'mediumiconslayout',
   },
+
 ];
