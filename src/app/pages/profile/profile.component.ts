@@ -37,4 +37,4 @@ export class ProfileComponent {
   imports: [DxFormModule],
   exports: [ProfileComponent],
 })
-export class ProfileModule {}
+export class ProfileModule { }

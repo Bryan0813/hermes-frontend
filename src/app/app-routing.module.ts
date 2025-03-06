@@ -11,12 +11,6 @@ import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
-import {
-  DxChartModule,
-  DxDataGridModule,
-  DxFormModule,
-  DxPieChartModule,
-} from 'devextreme-angular';
 import { RolesComponent } from './pages/roles/roles.component';
 import { CategoryServiceComponent } from './pages/category-service/category-service.component';
 
@@ -75,13 +69,8 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { useHash: true }),
-    DxPieChartModule,
-    DxChartModule,
-    DxDataGridModule,
-    DxFormModule,
   ],
   providers: [AuthGuardService],
   exports: [RouterModule],
-  // declarations: [HomeComponent, ProfileComponent, RolesComponent],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
