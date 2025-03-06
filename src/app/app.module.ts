@@ -15,16 +15,12 @@ import {
   ChangePasswordFormModule,
   LoginFormModule,
 } from './shared/components';
-import {
-  AuthService,
-  ScreenService,
-  AppInfoService,
-  PermitsService,
-} from './shared/services';
 import { AuthService, ScreenService, AppInfoService } from './shared/services';
 
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
+import { PermitsService } from './shared/services/modules/permits.service';
+import { CategoryServiceService } from './shared/services/modules';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,7 +40,13 @@ import { AppRoutingModule } from './app-routing.module';
     AppRoutingModule,
   ],
 
-  providers: [AuthService, ScreenService, AppInfoService, PermitsService],
+  providers: [
+    AuthService,
+    ScreenService,
+    AppInfoService,
+    PermitsService,
+    CategoryServiceService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
