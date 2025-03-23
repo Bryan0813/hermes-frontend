@@ -7,17 +7,24 @@ import {
   ChangePasswordFormComponent,
 } from './shared/components';
 import { AuthGuardService } from './shared/services';
-
-import { HomeComponent } from './pages/home/home.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { TasksComponent } from './pages/tasks/tasks.component';
-import { RolesComponent } from './pages/roles/roles.component';
-import { CategoryServiceComponent } from './pages/category-service/category-service.component';
+import {
+  ActivitiesComponent,
+  CategoryServiceComponent,
+  HomeComponent,
+  ProfileComponent,
+  RolesComponent,
+  ServicesComponent,
+} from './pages';
 
 const routes: Routes = [
   {
-    path: 'roles',
-    component: RolesComponent,
+    path: 'activities',
+    component: ActivitiesComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'services',
+    component: ServicesComponent,
     canActivate: [AuthGuardService],
   },
   {
@@ -26,8 +33,8 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
-    path: 'tasks',
-    component: TasksComponent,
+    path: 'roles',
+    component: RolesComponent,
     canActivate: [AuthGuardService],
   },
   {
@@ -67,10 +74,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { useHash: true }),
-  ],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   providers: [AuthGuardService],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

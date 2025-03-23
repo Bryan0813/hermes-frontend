@@ -6,25 +6,25 @@ import { API } from '../../constants/api';
 
 @Injectable()
 export class ServiceService {
-    constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-    getAll(): Observable<Service[]> {
-        return this.http.get<Service[]>(API.services);
-    }
+  getAll(): Observable<Service[]> {
+    return this.http.get<Service[]>(API.services);
+  }
 
-    getById(id: number): Observable<Service> {
-        return this.http.get<Service>(API.services + `${id}`);
-    }
+  getById(id: number): Observable<Service> {
+    return this.http.get<Service>(API.services + `${id}`);
+  }
 
-    create(data: Service): Observable<Service> {
-        return this.http.post<Service>(API.services, data);
-    }
+  create(data: Service): Observable<Service> {
+    return this.http.post<Service>(API.services, data);
+  }
 
-    update(id: number, data: Service): Observable<Service> {
-        return this.http.put<Service>(API.services + `${id}`, data);
-    }
+  update(id: number, data: Service): Observable<Service> {
+    return this.http.put<Service>(API.services + `${id}`, data);
+  }
 
-    delete(id: number): Observable<Service> {
-        return this.http.delete<Service>(API.services + `${id}`);
-    }
+  delete(id: number): Observable<Service> {
+    return this.http.delete<Service>(API.services + `${id}`);
+  }
 }
