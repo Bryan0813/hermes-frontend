@@ -1,4 +1,4 @@
-<h2>Servicios</h2>
+<h2>Actividades</h2>
 
 <div class="container">
   <section>
@@ -6,7 +6,7 @@
     </dx-button>
   </section>
   <dx-data-grid
-    [dataSource]="categoryServices"
+    [dataSource]="activities"
     [showBorders]="false"
     [columnAutoWidth]="true"
     [columnHidingEnabled]="true"
@@ -42,11 +42,7 @@
     <dxi-column type="buttons" width="100" alignment="left">
       <dxi-button name="edit" [visible]="true" [onClick]="showPopup">
       </dxi-button>
-      <dxi-button
-        name="delete"
-        [visible]="true"
-        [onClick]="deleteCategoryService"
-      >
+      <dxi-button name="delete" [visible]="true" [onClick]="deleteActivity">
       </dxi-button>
     </dxi-column>
 

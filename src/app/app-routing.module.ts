@@ -14,8 +14,14 @@ import { TasksComponent } from './pages/tasks/tasks.component';
 import { RolesComponent } from './pages/roles/roles.component';
 import { CategoryServiceComponent } from './pages/category-service/category-service.component';
 import { ServicesComponent } from './pages/services/services.component';
+import { ActivitiesComponent } from './pages/activities/activities.component';
 
 const routes: Routes = [
+  {
+    path: 'activities',
+    component: ActivitiesComponent,
+    canActivate: [AuthGuardService],
+  },
   {
     path: 'services',
     component: ServicesComponent,

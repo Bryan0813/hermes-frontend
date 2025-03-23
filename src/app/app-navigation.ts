@@ -33,4 +33,9 @@ export const navigation = [
     path: '/services',
     icon: 'smalliconslayout',
   },
+  {
+    text: 'Actividades',
+    path: '/activities',
+    icon: 'box',
+  },
 ];

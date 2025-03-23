@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { PermitsService } from './shared/services/modules/permits.service';
 import { CategoryServiceService } from './shared/services/modules';
 import { ServiceService } from './shared/services/modules/service.service';
+import { ActivityService } from './shared/services/modules/activity.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,6 +49,7 @@ import { ServiceService } from './shared/services/modules/service.service';
     PermitsService,
     CategoryServiceService,
     ServiceService,
+    ActivityService,
   ],
   bootstrap: [AppComponent],
 })

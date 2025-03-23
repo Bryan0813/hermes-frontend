@@ -77,4 +77,4 @@ export class ServicesComponent {
   imports: [CommonModule, DxDataGridModule, DxButtonModule, DxFormModule],
   exports: [ServicesComponent],
 })
-export class CategoryServiceModule {}
+export class ServiceModule {}
