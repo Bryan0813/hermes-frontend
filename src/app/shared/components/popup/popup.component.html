@@ -1,12 +1,16 @@
 <dx-popup
-  [width]="300"
-  [height]="280"
-  [showTitle]="true"
-  title="Information"
+  [width]="600"
+  [height]="600"
   [dragEnabled]="false"
   [hideOnOutsideClick]="true"
-  [showCloseButton]="false"
-  container=".dx-viewport"
+  [showCloseButton]="true"
   [(visible)]="visible"
 >
+  <!-- Proyección de contenido -->
+  <ng-content></ng-content>
+
+  <!-- Botón de cierre opcional -->
+  <!-- <div> -->
+  <!-- <dx-button text="Cerrar" (onClick)="closePopup()"></dx-button> -->
+  <!-- </div> -->
 </dx-popup>

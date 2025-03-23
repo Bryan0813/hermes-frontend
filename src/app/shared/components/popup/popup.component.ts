@@ -1,27 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import { DxPopupModule } from 'devextreme-angular';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  NgModule,
+} from '@angular/core';
+import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
 
 @Component({
   selector: 'app-popup',
   standalone: false,
   templateUrl: './popup.component.html',
-  styleUrl: './popup.component.scss',
+  styleUrls: ['./popup.component.scss'],
 })
 export class PopupComponent {
-  visible = false;
+  @Input() visible: boolean = false; // Controla la visibilidad del popup
+  @Output() visibleChange = new EventEmitter<boolean>(); // Emite cambios de visibilidad
 
-  show() {
-    this.visible = true;
-  }
-
-  hide() {
-    this.visible = false;
+  closePopup() {
+    this.visible = false; // Cambia el estado a false
+    this.visibleChange.emit(this.visible); // Emite el cambio al componente padre
   }
 }
 
 @NgModule({
-  imports: [CommonModule, DxPopupModule],
+  imports: [CommonModule, DxPopupModule, DxButtonModule],
   declarations: [PopupComponent],
   exports: [PopupComponent],
 })

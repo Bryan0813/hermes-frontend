@@ -5,9 +5,10 @@ import {
   DxDataGridModule,
   DxFormModule,
 } from 'devextreme-angular';
-import Button from 'devextreme/ui/data_grid';
 import { Activity } from '../../shared/models';
 import { ActivityService } from '../../shared/services/modules/activity.service';
+import { PopupModule } from '../../shared/components/popup/popup.component';
+import { ActivityFormModule } from '../../shared/components/modules';
 
 @Component({
   selector: 'app-activities',
@@ -16,13 +17,14 @@ import { ActivityService } from '../../shared/services/modules/activity.service'
   styleUrl: './activities.component.scss',
 })
 export class ActivitiesComponent {
-  popupVisible = false; //Variable para mostrar el popup
+  popupVisible = false; // Variable para controlar la visibilidad del popup
   activity: Activity = new Activity(); //Actividad individual
   activities: Activity[] = []; //Array de todas las actividades
 
   //Constructor para agregar los servicios necesarios
   constructor(private activyService: ActivityService) {
     this.deleteActivity = this.deleteActivity.bind(this);
+    this.editActivity = this.editActivity.bind(this);
   }
 
   //Metodo para cargar cuando inicia la pagina
@@ -30,40 +32,41 @@ export class ActivitiesComponent {
     this.loadActivities();
   }
 
-  //Metodo para cargar el popup
+  // Método para mostrar el popup
   showPopup() {
-    this.popupVisible = !this.popupVisible;
-    console.log(this.popupVisible);
+    this.popupVisible = false; // Asegúrate de que el estado sea false antes de abrir
+    setTimeout(() => {
+      this.popupVisible = true; // Cambia el estado a true para abrir el popup
+    }, 0); // Usa un pequeño retraso para forzar la detección de cambios
+  }
+
+  // Método para manejar el cierre del popup
+  onPopupClose(visible: boolean) {
+    this.activity = new Activity(); // Reiniciar la actividad
+    this.popupVisible = visible;
   }
 
   //Metodo para cargar todas las categorias
   loadActivities() {
-    this.activyService.getAll().subscribe((data) => {
-      if (data) this.activities = data;
+    this.activyService.getAll().subscribe((activities) => {
+      if (activities) this.activities = activities;
     });
   }
 
-  //Metodo para cargar una categoria
-  // loadCategoryService(id: number) {
-  //   this.activyService.getById(id).subscribe((data) => {
-  //     this.categoryService = data;
-  //   });
-  // }
-
-  //Metodo para guardar una categoria
-  // saveCategoryService($event: any) {
-  //   const id = $event.row.key;
-  //   if (id === 0) {
-  //     this.activyService.create(this.categoryService).subscribe((created) => {
-  //       if (created) this.loadActivities();
-  //     });
-  //   } else {
-  //     this.activyService.getById(id).subscribe((category) => {
-  //       // if (category) //Cargar popup
-  //     });
-  //   }
-  //   this.categoryService = new CategoryService();
-  // }
+  editActivity($event: any): void {
+    const id = $event.row.key;
+    if (!id) {
+      console.error('No se pudo obtener el ID de la actividad.');
+      return;
+    }
+    this.activyService.getById(id).subscribe({
+      next: (activityFound) => {
+        this.activity = activityFound;
+        this.showPopup();
+      },
+      error: (err) => alert(err.error.message),
+    });
+  }
 
   //Metodo para eliminar una categoria
   deleteActivity($event: any): void {
@@ -87,10 +90,46 @@ export class ActivitiesComponent {
       });
     }
   }
+
+  saveActivity(activity: Activity) {
+    if (activity.id) {
+      // Actualizar actividad existente
+      this.activyService.update(activity).subscribe({
+        next: () => {
+          this.loadActivities(); // Recargar actividades
+          this.popupVisible = false; // Cerrar el popup
+          this.activity = new Activity(); // Reiniciar la actividad
+        },
+        error: (err) => alert(err.error.message),
+      });
+    } else {
+      // Crear nueva actividad
+      this.activyService.create(activity).subscribe({
+        next: () => {
+          this.loadActivities(); // Recargar actividades
+          this.popupVisible = false; // Cerrar el popup
+          this.activity = new Activity(); // Reiniciar la actividad
+        },
+        error: (err) => alert(err.error.message),
+      });
+    }
+  }
+
+  closePopup() {
+    this.activity = new Activity(); // Reiniciar la actividad
+    this.popupVisible = false; // Cerrar el popup
+  }
 }
 @NgModule({
   declarations: [ActivitiesComponent],
-  imports: [CommonModule, DxDataGridModule, DxButtonModule, DxFormModule],
+  imports: [
+    CommonModule,
+    DxDataGridModule,
+    DxButtonModule,
+    DxFormModule,
+    PopupModule,
+    ActivityFormModule,
+  ],
   exports: [ActivitiesComponent],
 })
 export class ActivitiesModule {}

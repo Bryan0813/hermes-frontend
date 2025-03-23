@@ -1,0 +1,11 @@
+<dx-form id="form" [formData]="activity" labelLocation="left" [colCount]="1">
+  <dxi-item dataField="name" editorType="dxTextBox">
+    <dxo-label text="Nombre de la Actividad"></dxo-label>
+    <dxi-validation-rule type="required" message="El nombre es obligatorio">
+    </dxi-validation-rule>
+  </dxi-item>
+</dx-form>
+<div class="buttons">
+  <dx-button text="Guardar" type="success" (onClick)="save()"></dx-button>
+  <dx-button text="Cancelar" type="danger" (onClick)="cancel()"></dx-button>
+</div>

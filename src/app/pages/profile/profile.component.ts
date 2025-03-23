@@ -1,5 +1,6 @@
 import { Component, NgModule } from '@angular/core';
 import { DxFormModule } from 'devextreme-angular';
+import { colCountByScreen } from '../../shared/constants/col-count-by-screen';
 
 @Component({
   templateUrl: 'profile.component.html',
@@ -8,7 +9,7 @@ import { DxFormModule } from 'devextreme-angular';
 })
 export class ProfileComponent {
   employee: any;
-  colCountByScreen: object;
+  columns = colCountByScreen;
 
   constructor() {
     this.employee = {
@@ -24,12 +25,6 @@ export class ProfileComponent {
       Notes: 'Hello word',
       Address: '4600 N Virginia Rd.',
     };
-    this.colCountByScreen = {
-      xs: 1,
-      sm: 2,
-      md: 3,
-      lg: 4,
-    };
   }
 }
 @NgModule({
@@ -37,4 +32,4 @@ export class ProfileComponent {
   imports: [DxFormModule],
   exports: [ProfileComponent],
 })
-export class ProfileModule { }
+export class ProfileModule {}
