@@ -11,4 +11,8 @@ export class ActivityService {
   getAll(): Observable<Activity[]> {
     return this.http.get<Activity[]>(API.activities);
   }
+
+  delete(id: number): Observable<Activity[]> {
+    return this.http.delete<Activity[]>(API.activities + id);
+  }
 }

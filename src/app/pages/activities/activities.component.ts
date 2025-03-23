@@ -5,6 +5,7 @@ import {
   DxDataGridModule,
   DxFormModule,
 } from 'devextreme-angular';
+import Button from 'devextreme/ui/data_grid';
 import { Activity } from '../../shared/models';
 import { ActivityService } from '../../shared/services/modules/activity.service';
 
@@ -20,7 +21,9 @@ export class ActivitiesComponent {
   activities: Activity[] = []; //Array de todas las actividades
 
   //Constructor para agregar los servicios necesarios
-  constructor(private activyService: ActivityService) {}
+  constructor(private activyService: ActivityService) {
+    this.deleteActivity = this.deleteActivity.bind(this);
+  }
 
   //Metodo para cargar cuando inicia la pagina
   ngOnInit(): void {
@@ -30,6 +33,7 @@ export class ActivitiesComponent {
   //Metodo para cargar el popup
   showPopup() {
     this.popupVisible = !this.popupVisible;
+    console.log(this.popupVisible);
   }
 
   //Metodo para cargar todas las categorias
@@ -62,13 +66,26 @@ export class ActivitiesComponent {
   // }
 
   //Metodo para eliminar una categoria
-  deleteActivity($event: any) {
+  deleteActivity($event: any): void {
     const id = $event.row.key;
-    // console.log(id);
 
-    // this.activyService.delete(id).subscribe((deleted) => {
-    //   if (deleted) this.loadActivities();
-    // });
+    if (!id) {
+      console.error('No se pudo obtener el ID de la actividad.');
+      return;
+    }
+
+    const confirmDelete = confirm(
+      '¿Estás seguro de que deseas eliminar esta actividad?'
+    );
+
+    if (confirmDelete) {
+      this.activyService.delete(id).subscribe({
+        next: () => {
+          this.loadActivities();
+        },
+        error: (err) => alert(err.error.message),
+      });
+    }
   }
 }
 @NgModule({

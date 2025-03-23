@@ -7,14 +7,14 @@ import {
   ChangePasswordFormComponent,
 } from './shared/components';
 import { AuthGuardService } from './shared/services';
-
-import { HomeComponent } from './pages/home/home.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { TasksComponent } from './pages/tasks/tasks.component';
-import { RolesComponent } from './pages/roles/roles.component';
-import { CategoryServiceComponent } from './pages/category-service/category-service.component';
-import { ServicesComponent } from './pages/services/services.component';
-import { ActivitiesComponent } from './pages/activities/activities.component';
+import {
+  ActivitiesComponent,
+  CategoryServiceComponent,
+  HomeComponent,
+  ProfileComponent,
+  RolesComponent,
+  ServicesComponent,
+} from './pages';
 
 const routes: Routes = [
   {
@@ -35,11 +35,6 @@ const routes: Routes = [
   {
     path: 'roles',
     component: RolesComponent,
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: 'tasks',
-    component: TasksComponent,
     canActivate: [AuthGuardService],
   },
   {

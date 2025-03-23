@@ -10,20 +10,6 @@ export const navigation = [
     icon: 'user',
   },
   {
-    text: 'Examples',
-    icon: 'folder',
-    items: [
-      {
-        text: 'Profile',
-        path: '/profile',
-      },
-      {
-        text: 'Tasks',
-        path: '/tasks',
-      },
-    ],
-  },
-  {
     text: 'Categorias',
     path: '/category-services',
     icon: 'mediumiconslayout',
