@@ -13,16 +13,22 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { RolesComponent } from './pages/roles/roles.component';
 import { CategoryServiceComponent } from './pages/category-service/category-service.component';
+import { ServicesComponent } from './pages/services/services.component';
 
 const routes: Routes = [
   {
-    path: 'roles',
-    component: RolesComponent,
+    path: 'services',
+    component: ServicesComponent,
     canActivate: [AuthGuardService],
   },
   {
     path: 'category-services',
     component: CategoryServiceComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'roles',
+    component: RolesComponent,
     canActivate: [AuthGuardService],
   },
   {
@@ -67,10 +73,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { useHash: true }),
-  ],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   providers: [AuthGuardService],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

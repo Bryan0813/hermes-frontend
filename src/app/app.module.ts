@@ -21,6 +21,7 @@ import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import { PermitsService } from './shared/services/modules/permits.service';
 import { CategoryServiceService } from './shared/services/modules';
+import { ServiceService } from './shared/services/modules/service.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +47,7 @@ import { CategoryServiceService } from './shared/services/modules';
     AppInfoService,
     PermitsService,
     CategoryServiceService,
+    ServiceService,
   ],
   bootstrap: [AppComponent],
 })

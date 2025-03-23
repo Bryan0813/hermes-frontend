@@ -8,7 +8,6 @@ export const navigation = [
     text: 'Roles',
     path: '/roles',
     icon: 'user',
-
   },
   {
     text: 'Examples',
@@ -29,5 +28,9 @@ export const navigation = [
     path: '/category-services',
     icon: 'mediumiconslayout',
   },
-
+  {
+    text: 'Servicios',
+    path: '/services',
+    icon: 'smalliconslayout',
+  },
 ];
