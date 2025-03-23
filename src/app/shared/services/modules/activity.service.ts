@@ -12,6 +12,18 @@ export class ActivityService {
     return this.http.get<Activity[]>(API.activities);
   }
 
+  getById(id: number): Observable<Activity> {
+    return this.http.get<Activity>(API.activities + id);
+  }
+
+  create(activity: Activity): Observable<Activity[]> {
+    return this.http.post<Activity[]>(API.activities, activity);
+  }
+
+  update(activity: Activity): Observable<Activity[]> {
+    return this.http.put<Activity[]>(API.activities + activity.id, activity);
+  }
+
   delete(id: number): Observable<Activity[]> {
     return this.http.delete<Activity[]>(API.activities + id);
   }

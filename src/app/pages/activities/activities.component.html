@@ -22,7 +22,6 @@
       [visible]="true"
       [highlightCaseSensitive]="true"
     ></dxo-search-panel>
-    <!-- <dxo-editing [allowUpdating]="true" [allowDeleting]="true"></dxo-editing> -->
 
     <!-- Columnas -->
     <dxi-column
@@ -40,7 +39,7 @@
 
     <!-- botones de accion -->
     <dxi-column type="buttons" width="100" alignment="left">
-      <dxi-button name="edit" [visible]="true" [onClick]="showPopup">
+      <dxi-button name="edit" [visible]="true" [onClick]="editActivity">
       </dxi-button>
       <dxi-button name="delete" [visible]="true" [onClick]="deleteActivity">
       </dxi-button>
@@ -53,4 +52,13 @@
       [visible]="true"
     ></dxo-pager>
   </dx-data-grid>
+
+  <!-- Popup -->
+  <app-popup [(visible)]="popupVisible">
+    <app-activity-form
+      [activity]="activity"
+      (onSave)="saveActivity($event)"
+      (onCancel)="closePopup()"
+    ></app-activity-form>
+  </app-popup>
 </div>
