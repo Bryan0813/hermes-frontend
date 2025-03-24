@@ -16,6 +16,9 @@ import { DxButtonModule, DxPopupModule } from 'devextreme-angular';
 })
 export class PopupComponent {
   @Input() visible: boolean = false; // Controla la visibilidad del popup
+  @Input() width: number = 500; // Ancho del popup
+  @Input() height: number = 500; // Alto del popup
+  @Input() title: string = ''; // Título del popup
   @Output() visibleChange = new EventEmitter<boolean>(); // Emite cambios de visibilidad
 
   closePopup() {

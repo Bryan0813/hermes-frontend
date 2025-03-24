@@ -16,12 +16,18 @@ export class CategoryServiceService {
     return this.http.get<CategoryService>(API.categoryServices + id);
   }
 
-  create(data: CategoryService): Observable<CategoryService> {
-    return this.http.post<CategoryService>(API.categoryServices, data);
+  create(categoryService: CategoryService): Observable<CategoryService> {
+    return this.http.post<CategoryService>(
+      API.categoryServices,
+      categoryService
+    );
   }
 
-  update(id: number, data: CategoryService): Observable<CategoryService> {
-    return this.http.put<CategoryService>(API.categoryServices + id, data);
+  update(categoryService: CategoryService): Observable<CategoryService> {
+    return this.http.put<CategoryService>(
+      API.categoryServices + categoryService.id,
+      categoryService
+    );
   }
 
   delete(id: number): Observable<CategoryService> {

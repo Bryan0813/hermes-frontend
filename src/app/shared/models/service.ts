@@ -1,5 +1,6 @@
 export class Service {
-    idCategoryServices: number = 0;
-    name: string = '';
-    price: number = 0;
+  id: number = 0;
+  idCategoryServices: number = 0;
+  name: string = '';
+  price: number = 0;
 }

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import { CategoryService } from '../../shared/models';
 import { CategoryServiceService } from '../../shared/services/modules/category-service.service';
 import { PopupModule } from '../../shared/components/popup/popup.component';
-import { CategoryService } from '../../shared/models';
 import { CategoryServiceFormModule } from '../../shared/components/modules';
 
 @Component({
@@ -13,38 +13,54 @@ import { CategoryServiceFormModule } from '../../shared/components/modules';
   styleUrl: './category-service.component.scss',
 })
 export class CategoryServiceComponent {
+  //#region variables
   popupVisible = false; // Variable para controlar la visibilidad del popup
   categoryService: CategoryService = new CategoryService(); // Categoría individual
   categoryServices: CategoryService[] = []; // Array de todas las categorías
+  //#endregion
 
+  //#region constructor e init
   constructor(private categoryServiceService: CategoryServiceService) {
     this.deleteCategoryService = this.deleteCategoryService.bind(this);
     this.editCategoryService = this.editCategoryService.bind(this);
   }
 
   ngOnInit(): void {
-    this.loadCategories();
+    this.getAllCategories();
   }
+  //#endregion
 
-  // Método para mostrar el popup
-  showPopup() {
-    this.popupVisible = false; // Asegúrate de que el estado sea false antes de abrir
-    setTimeout(() => {
-      this.popupVisible = true; // Cambia el estado a true para abrir el popup
-    }, 0); // Usa un pequeño retraso para forzar la detección de cambios
-  }
-
-  // Método para manejar el cierre del popup
-  closePopup() {
-    this.categoryService = new CategoryService(); // Reiniciar la categoría
-    this.popupVisible = false; // Cerrar el popup
-  }
-
+  //#region metodos & servicios
   // Método para cargar todas las categorías
-  loadCategories() {
+  getAllCategories() {
     this.categoryServiceService.getAll().subscribe((categories) => {
       if (categories) this.categoryServices = categories;
     });
+  }
+
+  // Método para guardar una categoría
+  saveCategoryService(category: CategoryService) {
+    if (category.id) {
+      // Actualizar categoría existente
+      this.categoryServiceService.update(category).subscribe({
+        next: () => {
+          this.getAllCategories(); // Recargar categorías
+          this.popupVisible = false; // Cerrar el popup
+          this.categoryService = new CategoryService(); // Reiniciar la categoría
+        },
+        error: (err) => alert(err.error.message),
+      });
+    } else {
+      // Crear nueva categoría
+      this.categoryServiceService.create(category).subscribe({
+        next: () => {
+          this.getAllCategories(); // Recargar categorías
+          this.popupVisible = false; // Cerrar el popup
+          this.categoryService = new CategoryService(); // Reiniciar la categoría
+        },
+        error: (err) => alert(err.error.message),
+      });
+    }
   }
 
   // Método para editar una categoría
@@ -79,39 +95,31 @@ export class CategoryServiceComponent {
     if (confirmDelete) {
       this.categoryServiceService.delete(id).subscribe({
         next: () => {
-          this.loadCategories();
+          this.getAllCategories();
         },
         error: (err) => alert(err.error.message),
       });
     }
+  }
+  //#endregion
+
+  //#region Eventos
+  // Métodos para el popup
+  showPopup() {
+    this.popupVisible = false; // Asegúrate de que el estado sea false antes de abrir
+    setTimeout(() => {
+      this.popupVisible = true; // Cambia el estado a true para abrir el popup
+    }, 0); // Usa un pequeño retraso para forzar la detección de cambios
   }
 
-  // Método para guardar una categoría
-  saveCategoryService(category: CategoryService) {
-    if (category.id) {
-      // Actualizar categoría existente
-      this.categoryServiceService.update(+category.id, category).subscribe({
-        next: () => {
-          this.loadCategories(); // Recargar categorías
-          this.popupVisible = false; // Cerrar el popup
-          this.categoryService = new CategoryService(); // Reiniciar la categoría
-        },
-        error: (err) => alert(err.error.message),
-      });
-    } else {
-      // Crear nueva categoría
-      this.categoryServiceService.create(category).subscribe({
-        next: () => {
-          this.loadCategories(); // Recargar categorías
-          this.popupVisible = false; // Cerrar el popup
-          this.categoryService = new CategoryService(); // Reiniciar la categoría
-        },
-        error: (err) => alert(err.error.message),
-      });
-    }
+  closePopup() {
+    this.categoryService = new CategoryService(); // Reiniciar la categoría
+    this.popupVisible = false; // Cerrar el popup
   }
+  //#endregion
 }
 
+//#region module
 @NgModule({
   declarations: [CategoryServiceComponent],
   imports: [
@@ -124,3 +132,4 @@ export class CategoryServiceComponent {
   exports: [CategoryServiceComponent],
 })
 export class CategoryServiceModule {}
+//#endregion

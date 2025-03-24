@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  flex-direction: column; /* Organiza los elementos en una columna */
+  height: 100%; /* Ocupa todo el espacio disponible */
+}
+
+#form {
+  flex: 1; /* Hace que el formulario ocupe todo el espacio disponible */
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  gap: 10px; /* Espaciado entre los botones */
+  margin-top: 20px; /* Espaciado superior opcional */
+}

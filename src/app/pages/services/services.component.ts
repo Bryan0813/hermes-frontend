@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import {
-  DxButtonModule,
-  DxDataGridModule,
-  DxFormModule,
-} from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 import { Service } from '../../shared/models';
 import { ServiceService } from '../../shared/services/modules/service.service';
+import { PopupModule } from '../../shared/components/popup/popup.component';
+import { ServiceFormModule } from '../../shared/components/modules';
 
 @Component({
   selector: 'app-services',
@@ -15,66 +13,123 @@ import { ServiceService } from '../../shared/services/modules/service.service';
   styleUrl: './services.component.scss',
 })
 export class ServicesComponent {
-  popupVisible = false; //Variable para mostrar el popup
-  categoryService: Service = new Service(); //Categoria individual
-  categoryServices: Service[] = []; //Array de todas las categorias
+  //#region variables
+  popupVisible = false; // Variable para controlar la visibilidad del popup
+  service: Service = new Service(); // Servicio individual
+  services: Service[] = []; // Array de todos los servicios
+  //#endregion
 
-  //Constructor para agregar los servicios necesarios
-  constructor(private serviceService: ServiceService) {}
+  //#region constructor e init
+  constructor(private serviceService: ServiceService) {
+    this.deleteService = this.deleteService.bind(this);
+    this.editService = this.editService.bind(this);
+  }
 
-  //Metodo para cargar cuando inicia la pagina
   ngOnInit(): void {
-    this.loadCategorys();
+    this.getAllServices();
   }
+  //#endregion
 
-  //Metodo para cargar el popup
-  showPopup() {
-    this.popupVisible = !this.popupVisible;
-  }
-
-  //Metodo para cargar todas las categorias
-  loadCategorys() {
-    this.serviceService.getAll().subscribe((data) => {
-      if (data) this.categoryServices = data;
+  //#region metodos & servicios
+  // Método para cargar todos los servicios
+  getAllServices() {
+    this.serviceService.getAll().subscribe((services) => {
+      if (services) this.services = services;
     });
   }
 
-  //Metodo para cargar una categoria
-  loadCategoryService(id: number) {
-    this.serviceService.getById(id).subscribe((data) => {
-      this.categoryService = data;
-    });
-  }
-
-  //Metodo para guardar una categoria
-  saveCategoryService($event: any) {
-    const id = $event.row.key;
-    if (id === 0) {
-      this.serviceService.create(this.categoryService).subscribe((created) => {
-        if (created) this.loadCategorys();
+  // Método para guardar un servicio
+  saveService(service: Service) {
+    if (service.id) {
+      // Actualizar servicio existente
+      this.serviceService.update(service).subscribe({
+        next: () => {
+          this.getAllServices(); // Recargar servicios
+          this.popupVisible = false; // Cerrar el popup
+          this.service = new Service(); // Reiniciar el servicio
+        },
+        error: (err) => alert(err.error.message),
       });
     } else {
-      this.serviceService.getById(id).subscribe((category) => {
-        // if (category) //Cargar popup
+      // Crear nuevo servicio
+      this.serviceService.create(service).subscribe({
+        next: () => {
+          this.getAllServices(); // Recargar servicios
+          this.popupVisible = false; // Cerrar el popup
+          this.service = new Service(); // Reiniciar el servicio
+        },
+        error: (err) => alert(err.error.message),
       });
     }
-    this.categoryService = new Service();
   }
 
-  //Metodo para eliminar una categoria
-  deleteCategoryService($event: any) {
+  // Método para editar un servicio
+  editService($event: any): void {
     const id = $event.row.key;
-    // console.log(id);
-
-    this.serviceService.delete(id).subscribe((deleted) => {
-      if (deleted) this.loadCategorys();
+    if (!id) {
+      console.error('No se pudo obtener el ID del servicio.');
+      return;
+    }
+    this.serviceService.getById(id).subscribe({
+      next: (serviceFound) => {
+        this.service = serviceFound;
+        this.showPopup();
+      },
+      error: (err) => alert(err.error.message),
     });
   }
+
+  // Método para eliminar un servicio
+  deleteService($event: any): void {
+    const id = $event.row.key;
+
+    if (!id) {
+      console.error('No se pudo obtener el ID del servicio.');
+      return;
+    }
+
+    const confirmDelete = confirm(
+      '¿Estás seguro de que deseas eliminar este servicio?'
+    );
+
+    if (confirmDelete) {
+      this.serviceService.delete(id).subscribe({
+        next: () => {
+          this.getAllServices();
+        },
+        error: (err) => alert(err.error.message),
+      });
+    }
+  }
+  //#endregion
+
+  //#region Eventos
+  // Métodos para el popup
+  showPopup() {
+    this.popupVisible = false; // Asegúrate de que el estado sea false antes de abrir
+    setTimeout(() => {
+      this.popupVisible = true; // Cambia el estado a true para abrir el popup
+    }, 0); // Usa un pequeño retraso para forzar la detección de cambios
+  }
+
+  closePopup() {
+    this.service = new Service(); // Reiniciar el servicio
+    this.popupVisible = false; // Cerrar el popup
+  }
+  //#endregion
 }
 
+//#region module
 @NgModule({
   declarations: [ServicesComponent],
-  imports: [CommonModule, DxDataGridModule, DxButtonModule, DxFormModule],
+  imports: [
+    CommonModule,
+    DxDataGridModule,
+    DxButtonModule,
+    PopupModule,
+    ServiceFormModule,
+  ],
   exports: [ServicesComponent],
 })
-export class ServiceModule {}
+export class ServicesModule {}
+//#endregion

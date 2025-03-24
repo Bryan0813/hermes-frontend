@@ -1,10 +1,10 @@
-<h2>Categorías</h2>
+<div class="header">
+  <h2>Categorias</h2>
+  <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
+  </dx-button>
+</div>
 
-<div class="container">
-  <section>
-    <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
-    </dx-button>
-  </section>
+<div class="container content-block">
   <dx-data-grid
     [dataSource]="categoryServices"
     [showBorders]="false"
@@ -58,7 +58,12 @@
     ></dxo-pager>
   </dx-data-grid>
 
-  <app-popup [(visible)]="popupVisible">
+  <app-popup
+    [(visible)]="popupVisible"
+    [width]="400"
+    [height]="300"
+    title="Categoria"
+  >
     <app-category-service-form
       [categoryService]="categoryService"
       (onSave)="saveCategoryService($event)"

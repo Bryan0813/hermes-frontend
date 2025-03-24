@@ -1,10 +1,11 @@
-<h2>Actividades</h2>
+<div class="header">
+  <h2>Actividades</h2>
+  <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
+  </dx-button>
+</div>
 
-<div class="container">
-  <section>
-    <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
-    </dx-button>
-  </section>
+<div class="container content-block">
+  <!-- table -->
   <dx-data-grid
     [dataSource]="activities"
     [showBorders]="false"
@@ -54,7 +55,12 @@
   </dx-data-grid>
 
   <!-- Popup -->
-  <app-popup [(visible)]="popupVisible">
+  <app-popup
+    [(visible)]="popupVisible"
+    [width]="400"
+    [height]="300"
+    title="Actividad"
+  >
     <app-activity-form
       [activity]="activity"
       (onSave)="saveActivity($event)"

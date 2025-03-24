@@ -13,18 +13,18 @@ export class ServiceService {
   }
 
   getById(id: number): Observable<Service> {
-    return this.http.get<Service>(API.services + `${id}`);
+    return this.http.get<Service>(API.services + id);
   }
 
-  create(data: Service): Observable<Service> {
-    return this.http.post<Service>(API.services, data);
+  create(service: Service): Observable<Service> {
+    return this.http.post<Service>(API.services, service);
   }
 
-  update(id: number, data: Service): Observable<Service> {
-    return this.http.put<Service>(API.services + `${id}`, data);
+  update(service: Service): Observable<Service> {
+    return this.http.put<Service>(API.services + service.id, service);
   }
 
   delete(id: number): Observable<Service> {
-    return this.http.delete<Service>(API.services + `${id}`);
+    return this.http.delete<Service>(API.services + id);
   }
 }
