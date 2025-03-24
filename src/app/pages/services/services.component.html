@@ -8,12 +8,11 @@
   <dx-data-grid
     [dataSource]="services"
     [showBorders]="false"
-    [columnAutoWidth]="true"
-    [columnHidingEnabled]="true"
-    [remoteOperations]="true"
     keyExpr="id"
     class="dx-card content-block"
+    [columnAutoWidth]="true"
     width="100%"
+    (onCellPrepared)="onCellPrepared($event)"
   >
     <!-- opciones de la tabla -->
 
@@ -22,33 +21,48 @@
       [visible]="true"
       [highlightCaseSensitive]="true"
     ></dxo-search-panel>
-    <!-- <dxo-editing [allowUpdating]="true" [allowDeleting]="true"></dxo-editing> -->
 
     <!-- Columnas -->
     <dxi-column
       dataField="id"
+      caption="Identificador"
       dataType="number"
-      width="100"
       alignment="left"
     ></dxi-column>
     <dxi-column
       dataField="name"
+      caption="Nombre"
       dataType="string"
-      width="500"
       alignment="left"
     ></dxi-column>
     <dxi-column
       dataField="price"
+      caption="Precio"
       dataType="number"
-      width="500"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="status"
+      caption="Estado"
+      dataType="string"
       alignment="left"
     ></dxi-column>
 
     <!-- botones de accion -->
-    <dxi-column type="buttons" width="100" alignment="left">
-      <dxi-button name="edit" [visible]="true" [onClick]="editService">
+    <dxi-column type="buttons" alignment="left">
+      <dxi-button
+        name="edit"
+        icon="edit"
+        [visible]="true"
+        [onClick]="editService"
+      >
       </dxi-button>
-      <dxi-button name="delete" [visible]="true" [onClick]="deleteService">
+      <dxi-button
+        name="delete"
+        icon="refresh"
+        [visible]="true"
+        [onClick]="changeStatus"
+      >
       </dxi-button>
     </dxi-column>
 
