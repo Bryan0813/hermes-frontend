@@ -1,0 +1,142 @@
+<div class="header">
+  <h2>Paquetes</h2>
+  <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
+  </dx-button>
+</div>
+
+<div class="container content-block">
+  <dx-data-grid
+    [dataSource]="packages"
+    [showBorders]="true"
+    keyExpr="id"
+    class="dx-card content-block"
+    [columnAutoWidth]="true"
+    width="100%"
+    (onCellPrepared)="onCellPrepared($event)"
+    (onSelectionChanged)="getServiceByPackage($event)"
+  >
+    <!-- opciones de la tabla -->
+
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-search-panel
+      [visible]="true"
+      [highlightCaseSensitive]="true"
+    ></dxo-search-panel>
+
+    <dxo-selection mode="single"></dxo-selection>
+
+    <!-- Columnas -->
+    <dxi-column
+      dataField="id"
+      caption="Identificador"
+      dataType="number"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="activity"
+      caption="Nombre"
+      dataType="string"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="start"
+      caption="Fecha de inicio"
+      dataType="date"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="end"
+      caption="Fecha de fin"
+      dataType="date"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="price"
+      caption="Precio"
+      dataType="number"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="status"
+      caption="Estado"
+      dataType="string"
+      alignment="left"
+    ></dxi-column>
+
+    <!-- botones de accion -->
+    <dxi-column type="buttons" alignment="left">
+      <dxi-button
+        name="edit"
+        icon="edit"
+        [visible]="true"
+        [onClick]="editPackage"
+      >
+      </dxi-button>
+      <dxi-button
+        name="delete"
+        icon="refresh"
+        [visible]="true"
+        [onClick]="changeStatus"
+      >
+      </dxi-button>
+    </dxi-column>
+
+    <!-- Master-Detail -->
+    <dxo-master-detail [enabled]="false" template="detail">
+      <div *dxTemplate="let data of 'detail'">
+        <h4>Servicios asociados</h4>
+        <dx-data-grid
+          [dataSource]="serviceByPackage"
+          [showBorders]="true"
+          [columnAutoWidth]="true"
+          width="100%"
+        >
+          <dxi-column
+            dataField="id"
+            caption="ID"
+            dataType="number"
+            alignment="left"
+          ></dxi-column>
+          <dxi-column
+            dataField="name"
+            caption="Nombre del Servicio"
+            dataType="string"
+            alignment="left"
+          ></dxi-column>
+          <dxi-column
+            dataField="price"
+            caption="Precio"
+            dataType="number"
+            alignment="left"
+          ></dxi-column>
+          <dxi-column
+            dataField="status"
+            caption="Estado"
+            dataType="string"
+            alignment="left"
+          ></dxi-column>
+        </dx-data-grid>
+      </div>
+    </dxo-master-detail>
+
+    <dxo-paging [pageSize]="5"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [showInfo]="true"
+      [visible]="true"
+    ></dxo-pager>
+  </dx-data-grid>
+
+  <app-popup
+    [(visible)]="popupVisible"
+    [width]="800"
+    [height]="400"
+    title="Paquete"
+  >
+    <app-packages-form
+      [package]="package"
+      (onSave)="savePackage($event)"
+      (onCancel)="closePopup()"
+    ></app-packages-form>
+  </app-popup>
+</div>

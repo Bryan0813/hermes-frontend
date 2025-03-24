@@ -16,6 +16,10 @@ export class ServiceService {
     return this.http.get<Service>(API.services + id);
   }
 
+  getByPackage(id: number): Observable<Service[]> {
+    return this.http.get<Service[]>(API.services + 'package/' + id);
+  }
+
   create(service: Service): Observable<Service> {
     return this.http.post<Service>(API.services, service);
   }

@@ -11,12 +11,18 @@ import {
   ActivitiesComponent,
   CategoryServiceComponent,
   HomeComponent,
+  PackagesComponent,
   ProfileComponent,
   RolesComponent,
   ServicesComponent,
 } from './pages';
 
 const routes: Routes = [
+  {
+    path: 'packages',
+    component: PackagesComponent,
+    canActivate: [AuthGuardService],
+  },
   {
     path: 'activities',
     component: ActivitiesComponent,

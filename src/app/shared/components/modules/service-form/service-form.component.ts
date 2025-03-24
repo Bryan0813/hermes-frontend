@@ -6,13 +6,8 @@ import {
   NgModule,
   Output,
 } from '@angular/core';
-import {
-  DxButtonModule,
-  DxFormModule,
-  DxSelectBoxModule,
-} from 'devextreme-angular';
+import { DxButtonModule, DxFormModule } from 'devextreme-angular';
 import { CategoryService, Service } from '../../../models';
-import { DxoSearchEditorOptionsModule } from 'devextreme-angular/ui/nested';
 import { CategoryServiceService } from '../../../services/modules';
 
 @Component({
