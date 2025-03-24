@@ -22,6 +22,6 @@ export const navigation = [
   {
     text: 'Actividades',
     path: '/activities',
-    icon: 'box',
+    icon: 'pinmap',
   },
 ];

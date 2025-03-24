@@ -6,14 +6,14 @@ import { API } from '../../constants/api';
 
 @Injectable()
 export class CategoryServiceService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<CategoryService[]> {
     return this.http.get<CategoryService[]>(API.categoryServices);
   }
 
   getById(id: number): Observable<CategoryService> {
-    return this.http.get<CategoryService>(API.categoryServices + `/${id}`);
+    return this.http.get<CategoryService>(API.categoryServices + id);
   }
 
   create(data: CategoryService): Observable<CategoryService> {
@@ -21,10 +21,10 @@ export class CategoryServiceService {
   }
 
   update(id: number, data: CategoryService): Observable<CategoryService> {
-    return this.http.put<CategoryService>(API.categoryServices + `/${id}`, data);
+    return this.http.put<CategoryService>(API.categoryServices + id, data);
   }
 
   delete(id: number): Observable<CategoryService> {
-    return this.http.delete<CategoryService>(API.categoryServices + `/${id}`);
+    return this.http.delete<CategoryService>(API.categoryServices + id);
   }
 }

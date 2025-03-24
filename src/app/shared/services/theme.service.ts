@@ -4,22 +4,23 @@ import { BehaviorSubject } from 'rxjs';
 const themes = ['light', 'dark'] as const;
 const themeClassNamePrefix = 'dx-swatch-';
 
-type Theme = typeof themes[number];
+type Theme = (typeof themes)[number];
 
 function getNextTheme(theme?: Theme) {
   return (theme && themes[themes.indexOf(theme) + 1]) || themes[0];
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
-
   currentTheme: Theme = getNextTheme();
 
   constructor(@Inject(DOCUMENT) private document: Document) {
     if (!this.document.body.className.includes(themeClassNamePrefix)) {
-      this.document.body.classList.add(themeClassNamePrefix + this.currentTheme);
+      this.document.body.classList.add(
+        themeClassNamePrefix + this.currentTheme
+      );
     }
   }
 
@@ -36,12 +37,17 @@ export class ThemeService {
     );
 
     const additionalClassNamePrefix = themeClassNamePrefix + 'additional';
-    const additionalClassNamePostfix = isCurrentThemeDark ? '-' + currentTheme : '';
-    const additionalClassName = `${additionalClassNamePrefix}${additionalClassNamePostfix}`
+    const additionalClassNamePostfix = isCurrentThemeDark
+      ? '-' + currentTheme
+      : '';
+    const additionalClassName = `${additionalClassNamePrefix}${additionalClassNamePostfix}`;
 
     this.document.body
-      .querySelector(`.${additionalClassName}`)?.classList
-      .replace(additionalClassName, additionalClassNamePrefix + (isCurrentThemeDark ? '' : '-dark'));
+      .querySelector(`.${additionalClassName}`)
+      ?.classList.replace(
+        additionalClassName,
+        additionalClassNamePrefix + (isCurrentThemeDark ? '' : '-dark')
+      );
 
     this.currentTheme = newTheme;
     this.isDark.next(this.currentTheme === 'dark');

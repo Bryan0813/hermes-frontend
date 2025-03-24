@@ -126,7 +126,6 @@ export class ActivitiesComponent {
     CommonModule,
     DxDataGridModule,
     DxButtonModule,
-    DxFormModule,
     PopupModule,
     ActivityFormModule,
   ],
