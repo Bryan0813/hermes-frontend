@@ -21,7 +21,7 @@ export class ServicesComponent {
 
   //#region constructor e init
   constructor(private serviceService: ServiceService) {
-    this.deleteService = this.deleteService.bind(this);
+    this.changeStatus = this.changeStatus.bind(this);
     this.editService = this.editService.bind(this);
   }
 
@@ -80,7 +80,7 @@ export class ServicesComponent {
   }
 
   // Método para eliminar un servicio
-  deleteService($event: any): void {
+  changeStatus($event: any): void {
     const id = $event.row.key;
 
     if (!id) {
@@ -89,11 +89,11 @@ export class ServicesComponent {
     }
 
     const confirmDelete = confirm(
-      '¿Estás seguro de que deseas eliminar este servicio?'
+      '¿Estás seguro de que deseas cambiar el estado de este servicio?'
     );
 
     if (confirmDelete) {
-      this.serviceService.delete(id).subscribe({
+      this.serviceService.changeStatus(id).subscribe({
         next: () => {
           this.getAllServices();
         },
@@ -115,6 +115,26 @@ export class ServicesComponent {
   closePopup() {
     this.service = new Service(); // Reiniciar el servicio
     this.popupVisible = false; // Cerrar el popup
+  }
+  //#endregion
+
+  //#region conditions
+  // Método para cambiar el color del texto de la celda según el estado del servicio
+  onCellPrepared(e: any) {
+    if (e.rowType === 'data' && e.column.dataField === 'status') {
+      e.cellElement.style.color = e.data.status === true ? 'green' : 'red';
+      e.cellElement.textContent =
+        e.data.status === true ? 'Activo' : 'Inactivo';
+
+      // e.watch(
+      //   function () {
+      //     return e.data.status;
+      //   },
+      //   function () {
+      //     e.cellElement.style.color = e.data.status === true ? 'green' : 'red';
+      //   }
+      // );
+    }
   }
   //#endregion
 }

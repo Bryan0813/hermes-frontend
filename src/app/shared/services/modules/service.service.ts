@@ -24,7 +24,7 @@ export class ServiceService {
     return this.http.put<Service>(API.services + service.id, service);
   }
 
-  delete(id: number): Observable<Service> {
-    return this.http.delete<Service>(API.services + id);
+  changeStatus(id: number): Observable<Service> {
+    return this.http.patch<Service>(API.services + id, {});
   }
 }
