@@ -1,0 +1,44 @@
+<div class="container">
+  <dx-form id="form" [formData]="service" labelLocation="top" [colCount]="1">
+    <!-- Select para seleccionar una categoría -->
+    <dxi-item
+      dataField="idCategoryServices"
+      editorType="dxSelectBox"
+      [editorOptions]="{
+        dataSource: categoryServices,
+        displayExpr: 'name',
+        valueExpr: 'id',
+        placeholder: 'Seleccione una categoría',
+        showClearButton: true
+      }"
+    >
+      <dxo-label text="Categoría"></dxo-label>
+      <dxi-validation-rule
+        type="required"
+        message="La categoría del servicio es obligatoria"
+      ></dxi-validation-rule>
+    </dxi-item>
+
+    <!-- Campo para el nombre del servicio -->
+    <dxi-item dataField="name" editorType="dxTextBox">
+      <dxo-label text="Nombre"></dxo-label>
+      <dxi-validation-rule
+        type="required"
+        message="El nombre del servicio es obligatorio"
+      ></dxi-validation-rule>
+    </dxi-item>
+
+    <!-- Campo para el precio del servicio -->
+    <dxi-item dataField="price" editorType="dxNumberBox">
+      <dxo-label text="Precio"></dxo-label>
+      <dxi-validation-rule
+        type="required"
+        message="El precio del servicio es obligatorio"
+      ></dxi-validation-rule>
+    </dxi-item>
+  </dx-form>
+  <div class="buttons">
+    <dx-button text="Guardar" type="success" (onClick)="save()"></dx-button>
+    <dx-button text="Cancelar" type="danger" (onClick)="cancel()"></dx-button>
+  </div>
+</div>

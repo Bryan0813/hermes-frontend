@@ -1,10 +1,15 @@
 <div class="container">
-  <dx-form id="form" [formData]="activity" labelLocation="top" [colCount]="1">
+  <dx-form
+    id="form"
+    [formData]="categoryService"
+    labelLocation="left"
+    [colCount]="1"
+  >
     <dxi-item dataField="name" editorType="dxTextBox">
       <dxo-label text="Nombre"></dxo-label>
       <dxi-validation-rule
         type="required"
-        message="El nombre de la actividad es obligatorio"
+        message="El nombre de la categoria es obligatorio"
       >
       </dxi-validation-rule>
     </dxi-item>

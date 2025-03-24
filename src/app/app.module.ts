@@ -16,13 +16,14 @@ import {
   LoginFormModule,
 } from './shared/components';
 import { AuthService, ScreenService, AppInfoService } from './shared/services';
-
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
-import { PermitsService } from './shared/services/modules/permits.service';
-import { CategoryServiceService } from './shared/services/modules';
-import { ServiceService } from './shared/services/modules/service.service';
-import { ActivityService } from './shared/services/modules/activity.service';
+import {
+  ActivityService,
+  CategoryServiceService,
+  PermitsService,
+  ServiceService,
+} from './shared/services/modules';
 
 @NgModule({
   declarations: [AppComponent],

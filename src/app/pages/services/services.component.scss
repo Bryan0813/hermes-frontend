@@ -1,0 +1,14 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Opcional: ajusta la separación */
+    margin-bottom: 20px; /* Espaciado debajo del encabezado */
+  
+    h2 {
+      margin: 0; /* Elimina el margen del título */
+    }
+  
+    dx-button {
+      margin-left: 20px; /* Espaciado entre el título y el botón */
+    }
+  }

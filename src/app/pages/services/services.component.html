@@ -1,12 +1,12 @@
-<h2>Servicios</h2>
+<div class="header">
+  <h2>Servicios</h2>
+  <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
+  </dx-button>
+</div>
 
-<div class="container">
-  <section>
-    <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
-    </dx-button>
-  </section>
+<div class="container content-block">
   <dx-data-grid
-    [dataSource]="categoryServices"
+    [dataSource]="services"
     [showBorders]="false"
     [columnAutoWidth]="true"
     [columnHidingEnabled]="true"
@@ -37,16 +37,18 @@
       width="500"
       alignment="left"
     ></dxi-column>
+    <dxi-column
+      dataField="price"
+      dataType="number"
+      width="500"
+      alignment="left"
+    ></dxi-column>
 
     <!-- botones de accion -->
     <dxi-column type="buttons" width="100" alignment="left">
-      <dxi-button name="edit" [visible]="true" [onClick]="showPopup">
+      <dxi-button name="edit" [visible]="true" [onClick]="editService">
       </dxi-button>
-      <dxi-button
-        name="delete"
-        [visible]="true"
-        [onClick]="deleteCategoryService"
-      >
+      <dxi-button name="delete" [visible]="true" [onClick]="deleteService">
       </dxi-button>
     </dxi-column>
 
@@ -57,4 +59,17 @@
       [visible]="true"
     ></dxo-pager>
   </dx-data-grid>
+
+  <app-popup
+    [(visible)]="popupVisible"
+    [width]="400"
+    [height]="400"
+    title="Servicio"
+  >
+    <app-service-form
+      [service]="service"
+      (onSave)="saveService($event)"
+      (onCancel)="closePopup()"
+    ></app-service-form>
+  </app-popup>
 </div>
