@@ -21,10 +21,11 @@ import { AppRoutingModule } from './app-routing.module';
 import {
   ActivityService,
   CategoryServiceService,
+  PackageService,
   PermitsService,
+  RolesService,
   ServiceService,
 } from './shared/services/modules';
-import { PackageService } from './shared/services/modules/package.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -53,6 +54,7 @@ import { PackageService } from './shared/services/modules/package.service';
     ServiceService,
     ActivityService,
     PackageService,
+    RolesService
   ],
   bootstrap: [AppComponent],
 })
