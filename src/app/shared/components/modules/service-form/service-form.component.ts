@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { DxButtonModule, DxFormModule } from 'devextreme-angular';
-import { CategoryService, Service } from '../../../models';
+import { CategoryServiceModel, ServiceModel } from '../../../models';
 import { CategoryServiceService } from '../../../services/modules';
 
 @Component({
@@ -17,13 +17,13 @@ import { CategoryServiceService } from '../../../services/modules';
   styleUrl: './service-form.component.scss',
 })
 export class ServiceFormComponent {
-  @Input() service: Service = new Service(); // Recibe el servicio desde el componente padre
-  @Output() onSave = new EventEmitter<Service>(); // Emite el evento al guardar
+  @Input() service: ServiceModel = new ServiceModel(); // Recibe el servicio desde el componente padre
+  @Output() onSave = new EventEmitter<ServiceModel>(); // Emite el evento al guardar
   @Output() onCancel = new EventEmitter<void>(); // Emite el evento al cancelar
 
-  categoryServices: CategoryService[] = [];
+  categoryServices: CategoryServiceModel[] = [];
 
-  constructor(private categoryServiceService: CategoryServiceService) {}
+  constructor(private categoryServiceService: CategoryServiceService) { }
 
   ngOnInit(): void {
     this.getAllCategories();
@@ -51,4 +51,4 @@ export class ServiceFormComponent {
   declarations: [ServiceFormComponent],
   exports: [ServiceFormComponent],
 })
-export class ServiceFormModule {}
+export class ServiceFormModule { }

@@ -1,14 +1,23 @@
 <div class="container">
+  <!-- form -->
   <dx-form id="form" [formData]="package" labelLocation="top" [colCount]="1">
     <dxi-item dataField="name" editorType="dxTextBox">
       <dxo-label text="Nombre"></dxo-label>
-      <dxi-validation-rule
-        type="required"
-        message="El nombre de la actividad es obligatorio"
-      >
+      <dxi-validation-rule type="required" message="El nombre de la actividad es obligatorio">
       </dxi-validation-rule>
     </dxi-item>
   </dx-form>
+
+  <!-- table -->
+  <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="services"
+    [columnAutoWidth]="true">
+    <dxi-column dataField="name" dataType="string" width="500" alignment="left"></dxi-column>
+    <dxi-column type="buttons" width="100" alignment="left">
+      <dxi-button name="delete" icon="remove" [visible]="true"></dxi-button>
+    </dxi-column>
+  </dx-data-grid>
+
+  <!-- buttons -->
   <div class="buttons">
     <dx-button text="Guardar" type="success" (onClick)="save()"></dx-button>
     <dx-button text="Cancelar" type="danger" (onClick)="cancel()"></dx-button>

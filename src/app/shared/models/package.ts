@@ -1,4 +1,4 @@
-export class Package {
+export class PackageModel {
   id: number = 0;
   idActivity: number = 0;
   activity: string = '';

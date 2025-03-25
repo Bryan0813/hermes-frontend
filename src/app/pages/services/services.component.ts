@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
-import { Service } from '../../shared/models';
-import { ServiceService } from '../../shared/services/modules/service.service';
+import { ServiceModel } from '../../shared/models';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { ServiceFormModule } from '../../shared/components/modules';
+import { ServiceService } from '../../shared/services/modules';
 
 @Component({
   selector: 'app-services',
@@ -15,8 +15,8 @@ import { ServiceFormModule } from '../../shared/components/modules';
 export class ServicesComponent {
   //#region variables
   popupVisible = false; // Variable para controlar la visibilidad del popup
-  service: Service = new Service(); // Servicio individual
-  services: Service[] = []; // Array de todos los servicios
+  service: ServiceModel = new ServiceModel(); // Servicio individual
+  services: ServiceModel[] = []; // Array de todos los servicios
   //#endregion
 
   //#region constructor e init
@@ -39,16 +39,16 @@ export class ServicesComponent {
   }
 
   // Método para guardar un servicio
-  saveService(service: Service) {
+  saveService(service: ServiceModel) {
     if (service.id) {
       // Actualizar servicio existente
       this.serviceService.update(service).subscribe({
         next: () => {
           this.getAllServices(); // Recargar servicios
           this.popupVisible = false; // Cerrar el popup
-          this.service = new Service(); // Reiniciar el servicio
+          this.service = new ServiceModel(); // Reiniciar el servicio
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     } else {
       // Crear nuevo servicio
@@ -56,9 +56,9 @@ export class ServicesComponent {
         next: () => {
           this.getAllServices(); // Recargar servicios
           this.popupVisible = false; // Cerrar el popup
-          this.service = new Service(); // Reiniciar el servicio
+          this.service = new ServiceModel(); // Reiniciar el servicio
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     }
   }
@@ -75,7 +75,7 @@ export class ServicesComponent {
         this.service = serviceFound;
         this.showPopup();
       },
-      error: (err) => alert(err.error.message),
+      error: (err) => console.error(err.error.message),
     });
   }
 
@@ -97,7 +97,7 @@ export class ServicesComponent {
         next: () => {
           this.getAllServices();
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     }
   }
@@ -113,7 +113,7 @@ export class ServicesComponent {
   }
 
   closePopup() {
-    this.service = new Service(); // Reiniciar el servicio
+    this.service = new ServiceModel(); // Reiniciar el servicio
     this.popupVisible = false; // Cerrar el popup
   }
   //#endregion
@@ -151,5 +151,5 @@ export class ServicesComponent {
   ],
   exports: [ServicesComponent],
 })
-export class ServicesModule {}
+export class ServicesModule { }
 //#endregion

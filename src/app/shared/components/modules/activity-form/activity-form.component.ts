@@ -7,7 +7,7 @@ import {
   NgModule,
 } from '@angular/core';
 import { DxButtonModule, DxFormModule } from 'devextreme-angular';
-import { Activity } from '../../../models';
+import { ActivityModel } from '../../../models';
 
 @Component({
   selector: 'app-activity-form',
@@ -16,8 +16,8 @@ import { Activity } from '../../../models';
   styleUrls: ['./activity-form.component.scss'],
 })
 export class ActivityFormComponent {
-  @Input() activity: Activity = new Activity(); // Recibe la actividad desde el componente padre
-  @Output() onSave = new EventEmitter<Activity>(); // Emite el evento al guardar
+  @Input() activity: ActivityModel = new ActivityModel(); // Recibe la actividad desde el componente padre
+  @Output() onSave = new EventEmitter<ActivityModel>(); // Emite el evento al guardar
   @Output() onCancel = new EventEmitter<void>(); // Emite el evento al cancelar
 
   save() {
@@ -33,4 +33,4 @@ export class ActivityFormComponent {
   declarations: [ActivityFormComponent],
   exports: [ActivityFormComponent],
 })
-export class ActivityFormModule {}
+export class ActivityFormModule { }

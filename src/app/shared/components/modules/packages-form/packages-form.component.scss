@@ -1,0 +1,34 @@
+.container {
+    display: grid;
+    grid-template-areas:
+        "form table"
+        "buttons buttons";
+    grid-template-columns: 40% 60%;
+    /* El formulario ocupa el 40% y la tabla el 60% */
+    grid-template-rows: auto auto;
+    /* Ajusta las filas automáticamente */
+    gap: 20px;
+    /* Espaciado entre los elementos */
+    height: 100%;
+}
+
+#form {
+    grid-area: form;
+    /* Asigna el formulario al área "form" */
+}
+
+.dx-data-grid {
+    grid-area: table;
+    /* Asigna la tabla al área "table" */
+}
+
+.buttons {
+    grid-area: buttons;
+    /* Asigna los botones al área "buttons" */
+    display: flex;
+    justify-content: flex-end;
+    /* Alinea los botones a la derecha */
+    gap: 10px;
+    /* Espaciado entre los botones */
+    margin-top: 20px;
+}

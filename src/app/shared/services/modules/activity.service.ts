@@ -2,29 +2,29 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API } from '../../constants/api';
-import { Activity } from '../../models';
+import { ActivityModel } from '../../models';
 
 @Injectable()
 export class ActivityService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Activity[]> {
-    return this.http.get<Activity[]>(API.activities);
+  getAll(): Observable<ActivityModel[]> {
+    return this.http.get<ActivityModel[]>(API.activities);
   }
 
-  getById(id: number): Observable<Activity> {
-    return this.http.get<Activity>(API.activities + id);
+  getById(id: number): Observable<ActivityModel> {
+    return this.http.get<ActivityModel>(API.activities + id);
   }
 
-  create(activity: Activity): Observable<Activity[]> {
-    return this.http.post<Activity[]>(API.activities, activity);
+  create(activity: ActivityModel): Observable<ActivityModel[]> {
+    return this.http.post<ActivityModel[]>(API.activities, activity);
   }
 
-  update(activity: Activity): Observable<Activity[]> {
-    return this.http.put<Activity[]>(API.activities + activity.id, activity);
+  update(activity: ActivityModel): Observable<ActivityModel[]> {
+    return this.http.put<ActivityModel[]>(API.activities + activity.id, activity);
   }
 
-  delete(id: number): Observable<Activity[]> {
-    return this.http.delete<Activity[]>(API.activities + id);
+  delete(id: number): Observable<ActivityModel[]> {
+    return this.http.delete<ActivityModel[]>(API.activities + id);
   }
 }

@@ -1,34 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Service } from '../../models';
 import { API } from '../../constants/api';
+import { ServiceModel } from '../../models';
 
 @Injectable()
 export class ServiceService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Service[]> {
-    return this.http.get<Service[]>(API.services);
+  getAll(): Observable<ServiceModel[]> {
+    return this.http.get<ServiceModel[]>(API.services);
   }
 
-  getById(id: number): Observable<Service> {
-    return this.http.get<Service>(API.services + id);
+  getById(id: number): Observable<ServiceModel> {
+    return this.http.get<ServiceModel>(API.services + id);
   }
 
-  getByPackage(id: number): Observable<Service[]> {
-    return this.http.get<Service[]>(API.services + 'package/' + id);
+  getByPackage(id: number): Observable<ServiceModel[]> {
+    return this.http.get<ServiceModel[]>(API.services + 'package/' + id);
   }
 
-  create(service: Service): Observable<Service> {
-    return this.http.post<Service>(API.services, service);
+  create(service: ServiceModel): Observable<ServiceModel> {
+    return this.http.post<ServiceModel>(API.services, service);
   }
 
-  update(service: Service): Observable<Service> {
-    return this.http.put<Service>(API.services + service.id, service);
+  update(service: ServiceModel): Observable<ServiceModel> {
+    return this.http.put<ServiceModel>(API.services + service.id, service);
   }
 
-  changeStatus(id: number): Observable<Service> {
-    return this.http.patch<Service>(API.services + id, {});
+  changeStatus(id: number): Observable<ServiceModel> {
+    return this.http.patch<ServiceModel>(API.services + id, {});
   }
 }

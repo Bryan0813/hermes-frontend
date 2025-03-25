@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
-import { Activity } from '../../shared/models';
+import { ActivityModel } from '../../shared/models';
 import { ActivityService } from '../../shared/services/modules/activity.service';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { ActivityFormModule } from '../../shared/components/modules';
@@ -15,8 +15,8 @@ import { ActivityFormModule } from '../../shared/components/modules';
 export class ActivitiesComponent {
   //#region variables
   popupVisible = false; // Variable para controlar la visibilidad del popup
-  activity: Activity = new Activity(); //Actividad individual
-  activities: Activity[] = []; //Array de todas las actividades
+  activity: ActivityModel = new ActivityModel(); //Actividad individual
+  activities: ActivityModel[] = []; //Array de todas las actividades
   //#endregion
 
   //#region constructor e init
@@ -39,16 +39,16 @@ export class ActivitiesComponent {
   }
 
   //Metodo para crear una actividad
-  saveActivity(activity: Activity) {
+  saveActivity(activity: ActivityModel) {
     if (activity.id) {
       // Actualizar actividad existente
       this.activyService.update(activity).subscribe({
         next: () => {
           this.getAllActivities(); // Recargar actividades
           this.popupVisible = false; // Cerrar el popup
-          this.activity = new Activity(); // Reiniciar la actividad
+          this.activity = new ActivityModel(); // Reiniciar la actividad
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     } else {
       // Crear nueva actividad
@@ -56,9 +56,9 @@ export class ActivitiesComponent {
         next: () => {
           this.getAllActivities(); // Recargar actividades
           this.popupVisible = false; // Cerrar el popup
-          this.activity = new Activity(); // Reiniciar la actividad
+          this.activity = new ActivityModel(); // Reiniciar la actividad
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     }
   }
@@ -75,7 +75,7 @@ export class ActivitiesComponent {
         this.activity = activityFound;
         this.showPopup();
       },
-      error: (err) => alert(err.error.message),
+      error: (err) => console.error(err.error.message),
     });
   }
 
@@ -97,7 +97,7 @@ export class ActivitiesComponent {
         next: () => {
           this.getAllActivities();
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     }
   }
@@ -113,7 +113,7 @@ export class ActivitiesComponent {
   }
 
   closePopup() {
-    this.activity = new Activity(); // Reiniciar la actividad
+    this.activity = new ActivityModel(); // Reiniciar la actividad
     this.popupVisible = false; // Cerrar el popup
   }
   //#endregion
@@ -130,5 +130,5 @@ export class ActivitiesComponent {
   ],
   exports: [ActivitiesComponent],
 })
-export class ActivitiesModule {}
+export class ActivitiesModule { }
 //#endregion

@@ -5,10 +5,8 @@ import {
   DxDataGridModule,
   DxTemplateModule,
 } from 'devextreme-angular';
-import { Package } from '../../shared/models/package';
+import { PackageModel } from '../../shared/models/package';
 import { PackageService } from '../../shared/services/modules/package.service';
-import { Service } from '../../shared/models/service';
-import { ServiceService } from '../../shared/services/modules/service.service';
 import { PopupModule } from '../../shared/components';
 import { PackagesFormModule } from '../../shared/components/modules';
 import { PackageServiceModel } from '../../shared/models';
@@ -22,8 +20,8 @@ import { PackageServiceModel } from '../../shared/models';
 export class PackagesComponent {
   //#region variables
   popupVisible = false; // Variable para controlar la visibilidad del popup
-  package: Package = new Package(); // Paquete individual
-  packages: Package[] = []; // Array de todos los paquetes
+  package: PackageModel = new PackageModel(); // Paquete individual
+  packages: PackageModel[] = []; // Array de todos los paquetes
   serviceByPackage: PackageServiceModel[] = []; // Array de servicios por paquete
   //#endregion
 
@@ -47,7 +45,7 @@ export class PackagesComponent {
       next: (packages) => {
         this.packages = packages;
       },
-      error: (err) => alert(err.error.message),
+      error: (err) => console.error(err.error.message),
     });
   }
 
@@ -63,29 +61,30 @@ export class PackagesComponent {
         this.serviceByPackage = serviceByPackage;
         console.log(this.serviceByPackage);
       },
-      error: (err) => alert(err.error.message),
+      error: (err) => console.error(err.error.message),
     });
   }
 
   // Método para guardar un paquete
-  savePackage(pkg: Package) {
+  savePackage(pkg: PackageModel) {
     if (pkg.id) {
       this.packageService.update(pkg).subscribe({
         next: () => {
           this.getAllPackages();
           this.popupVisible = false;
-          this.package = new Package();
+          this.package = new PackageModel();
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     } else {
       this.packageService.create(pkg).subscribe({
         next: () => {
           this.getAllPackages();
           this.popupVisible = false;
-          this.package = new Package();
+          this.package = new PackageModel();
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
+
       });
     }
   }
@@ -102,7 +101,7 @@ export class PackagesComponent {
         this.package = packageFound;
         this.showPopup();
       },
-      error: (err) => alert(err.error.message),
+      error: (err) => console.error(err.error.message),
     });
   }
 
@@ -124,7 +123,7 @@ export class PackagesComponent {
         next: () => {
           this.getAllPackages();
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     }
   }
@@ -139,7 +138,7 @@ export class PackagesComponent {
   }
 
   closePopup() {
-    this.package = new Package();
+    this.package = new PackageModel();
     this.popupVisible = false;
   }
   //#endregion
@@ -169,5 +168,5 @@ export class PackagesComponent {
   ],
   exports: [PackagesComponent],
 })
-export class PackagesModule {}
+export class PackagesModule { }
 //#endregion

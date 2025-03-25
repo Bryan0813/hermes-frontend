@@ -1,4 +1,4 @@
-export class Service {
+export class ServiceModel {
   id: number = 0;
   idCategoryServices: number = 0;
   name: string = '';

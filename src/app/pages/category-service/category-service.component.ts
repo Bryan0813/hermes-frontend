@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
-import { CategoryService } from '../../shared/models';
+import { CategoryServiceModel } from '../../shared/models';
 import { CategoryServiceService } from '../../shared/services/modules/category-service.service';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { CategoryServiceFormModule } from '../../shared/components/modules';
@@ -15,8 +15,8 @@ import { CategoryServiceFormModule } from '../../shared/components/modules';
 export class CategoryServiceComponent {
   //#region variables
   popupVisible = false; // Variable para controlar la visibilidad del popup
-  categoryService: CategoryService = new CategoryService(); // Categoría individual
-  categoryServices: CategoryService[] = []; // Array de todas las categorías
+  categoryService: CategoryServiceModel = new CategoryServiceModel(); // Categoría individual
+  categoryServices: CategoryServiceModel[] = []; // Array de todas las categorías
   //#endregion
 
   //#region constructor e init
@@ -39,16 +39,16 @@ export class CategoryServiceComponent {
   }
 
   // Método para guardar una categoría
-  saveCategoryService(category: CategoryService) {
+  saveCategoryService(category: CategoryServiceModel) {
     if (category.id) {
       // Actualizar categoría existente
       this.categoryServiceService.update(category).subscribe({
         next: () => {
           this.getAllCategories(); // Recargar categorías
           this.popupVisible = false; // Cerrar el popup
-          this.categoryService = new CategoryService(); // Reiniciar la categoría
+          this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     } else {
       // Crear nueva categoría
@@ -56,9 +56,9 @@ export class CategoryServiceComponent {
         next: () => {
           this.getAllCategories(); // Recargar categorías
           this.popupVisible = false; // Cerrar el popup
-          this.categoryService = new CategoryService(); // Reiniciar la categoría
+          this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     }
   }
@@ -75,7 +75,7 @@ export class CategoryServiceComponent {
         this.categoryService = categoryFound;
         this.showPopup();
       },
-      error: (err) => alert(err.error.message),
+      error: (err) => console.error(err.error.message),
     });
   }
 
@@ -97,7 +97,7 @@ export class CategoryServiceComponent {
         next: () => {
           this.getAllCategories();
         },
-        error: (err) => alert(err.error.message),
+        error: (err) => console.error(err.error.message),
       });
     }
   }
@@ -113,7 +113,7 @@ export class CategoryServiceComponent {
   }
 
   closePopup() {
-    this.categoryService = new CategoryService(); // Reiniciar la categoría
+    this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
     this.popupVisible = false; // Cerrar el popup
   }
   //#endregion
@@ -131,5 +131,5 @@ export class CategoryServiceComponent {
   ],
   exports: [CategoryServiceComponent],
 })
-export class CategoryServiceModule {}
+export class CategoryServiceModule { }
 //#endregion
