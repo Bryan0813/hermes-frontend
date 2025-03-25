@@ -11,6 +11,7 @@ import { Service } from '../../shared/models/service';
 import { ServiceService } from '../../shared/services/modules/service.service';
 import { PopupModule } from '../../shared/components';
 import { PackagesFormModule } from '../../shared/components/modules';
+import { PackageServiceModel } from '../../shared/models';
 
 @Component({
   selector: 'app-packages',
@@ -23,14 +24,11 @@ export class PackagesComponent {
   popupVisible = false; // Variable para controlar la visibilidad del popup
   package: Package = new Package(); // Paquete individual
   packages: Package[] = []; // Array de todos los paquetes
-  serviceByPackage: Service[] = []; // Array de servicios por paquete
+  serviceByPackage: PackageServiceModel[] = []; // Array de servicios por paquete
   //#endregion
 
   //#region constructor e init
-  constructor(
-    private packageService: PackageService,
-    private serviceService: ServiceService
-  ) {
+  constructor(private packageService: PackageService) {
     this.changeStatus = this.changeStatus.bind(this);
     this.editPackage = this.editPackage.bind(this);
     this.onCellPrepared = this.onCellPrepared.bind(this);
@@ -45,8 +43,11 @@ export class PackagesComponent {
   //#region metodos & servicios
   // Método para cargar todos los paquetes
   getAllPackages() {
-    this.packageService.getAll().subscribe((packages) => {
-      if (packages) this.packages = packages;
+    this.packageService.getAll().subscribe({
+      next: (packages) => {
+        this.packages = packages;
+      },
+      error: (err) => alert(err.error.message),
     });
   }
 
@@ -57,8 +58,12 @@ export class PackagesComponent {
       console.error('No se pudo obtener el ID del paquete.');
       return;
     }
-    this.serviceService.getByPackage(id).subscribe((services) => {
-      if (services) this.serviceByPackage = services;
+    this.packageService.getServicePackages(+id).subscribe({
+      next: (serviceByPackage) => {
+        this.serviceByPackage = serviceByPackage;
+        console.log(this.serviceByPackage);
+      },
+      error: (err) => alert(err.error.message),
     });
   }
 

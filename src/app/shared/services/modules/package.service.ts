@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API } from '../../constants/api';
-import { Package } from '../../models';
+import { Package, PackageServiceModel } from '../../models';
 
 @Injectable()
 export class PackageService {
@@ -10,6 +10,12 @@ export class PackageService {
 
   getAll(): Observable<Package[]> {
     return this.http.get<Package[]>(API.packages);
+  }
+
+  getServicePackages(idPackage: number): Observable<PackageServiceModel[]> {
+    return this.http.get<PackageServiceModel[]>(
+      API.packageServices + 'package/' + idPackage
+    );
   }
 
   getById(id: number): Observable<Package> {
