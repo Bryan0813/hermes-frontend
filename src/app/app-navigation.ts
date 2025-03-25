@@ -24,4 +24,9 @@ export const navigation = [
     path: '/activities',
     icon: 'pinmap',
   },
+  {
+    text: 'Paquetes',
+    path: '/packages',
+    icon: 'box',
+  },
 ];
