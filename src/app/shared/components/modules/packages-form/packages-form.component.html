@@ -1,6 +1,6 @@
 <div class="container">
   <!-- form -->
-  <dx-form id="form" [formData]="package" labelLocation="top" [colCount]="1">
+  <dx-form id="form" [formData]="package" labelLocation="left">
     <!-- Select para seleccionar una actividad -->
     <dxi-item
       dataField="idActivity"
@@ -30,6 +30,22 @@
     <dxi-item dataField="level" editorType="dxTextBox">
       <dxo-label text="Nivel"></dxo-label>
     </dxi-item>
+    <!-- Select para seleccionar servicios -->
+    <dxi-item
+      dataField="service"
+      editorType="dxSelectBox"
+      [editorOptions]="{
+        dataSource: services,
+        displayExpr: 'name',
+        valueExpr: 'id',
+        placeholder: 'Seleccione un servicio',
+        showClearButton: true,
+        onValueChanged: addServiceFromPackage
+      }"
+      colSpan="2"
+    >
+      <dxo-label text="Servicio"></dxo-label>
+    </dxi-item>
     <dxi-item dataField="price" editorType="dxTextBox">
       <dxo-label text="Precio"></dxo-label>
     </dxi-item>
@@ -50,17 +66,26 @@
     class="dx-card content-block"
     keyExpr="id"
     width="100%"
-    [dataSource]="services"
+    [dataSource]="servicesToPackage"
     [columnAutoWidth]="true"
   >
     <dxi-column
       dataField="name"
       dataType="string"
-      width="500"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="price"
+      dataType="number"
       alignment="left"
     ></dxi-column>
     <dxi-column type="buttons" width="100" alignment="left">
-      <dxi-button name="delete" icon="remove" [visible]="true"></dxi-button>
+      <dxi-button
+        name="delete"
+        icon="remove"
+        [visible]="true"
+        [onClick]="removeServiceFromPackage"
+      ></dxi-button>
     </dxi-column>
   </dx-data-grid>
 
