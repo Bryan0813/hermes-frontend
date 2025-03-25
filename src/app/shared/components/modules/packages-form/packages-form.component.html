@@ -1,17 +1,64 @@
 <div class="container">
   <!-- form -->
   <dx-form id="form" [formData]="package" labelLocation="top" [colCount]="1">
-    <dxi-item dataField="name" editorType="dxTextBox">
+    <!-- Select para seleccionar una actividad -->
+    <dxi-item
+      dataField="idActivity"
+      editorType="dxSelectBox"
+      [editorOptions]="{
+        dataSource: activities,
+        displayExpr: 'name',
+        valueExpr: 'id',
+        placeholder: 'Seleccione una actividad',
+        showClearButton: true
+      }"
+    >
+      <dxo-label text="Actividad"></dxo-label>
+      <dxi-validation-rule
+        type="required"
+        message="La actividad del paquete es obligatoria"
+      ></dxi-validation-rule>
+    </dxi-item>
+    <dxi-item dataField="activity" editorType="dxTextBox">
       <dxo-label text="Nombre"></dxo-label>
-      <dxi-validation-rule type="required" message="El nombre de la actividad es obligatorio">
+      <dxi-validation-rule
+        type="required"
+        message="El nombre de la actividad es obligatorio"
+      >
       </dxi-validation-rule>
+    </dxi-item>
+    <dxi-item dataField="level" editorType="dxTextBox">
+      <dxo-label text="Nivel"></dxo-label>
+    </dxi-item>
+    <dxi-item dataField="price" editorType="dxTextBox">
+      <dxo-label text="Precio"></dxo-label>
+    </dxi-item>
+    <dxi-item dataField="reserve" editorType="dxTextBox">
+      <dxo-label text="Reserva"></dxo-label>
+    </dxi-item>
+    <dxi-item
+      dataField="description"
+      editorType="dxTextArea"
+      [editorOptions]="{ maxLength: 255, height: 60, autoResize: true }"
+    >
+      <dxo-label text="Descripción"></dxo-label>
     </dxi-item>
   </dx-form>
 
   <!-- table -->
-  <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="services"
-    [columnAutoWidth]="true">
-    <dxi-column dataField="name" dataType="string" width="500" alignment="left"></dxi-column>
+  <dx-data-grid
+    class="dx-card content-block"
+    keyExpr="id"
+    width="100%"
+    [dataSource]="services"
+    [columnAutoWidth]="true"
+  >
+    <dxi-column
+      dataField="name"
+      dataType="string"
+      width="500"
+      alignment="left"
+    ></dxi-column>
     <dxi-column type="buttons" width="100" alignment="left">
       <dxi-button name="delete" icon="remove" [visible]="true"></dxi-button>
     </dxi-column>
@@ -19,6 +66,11 @@
 
   <!-- buttons -->
   <div class="buttons">
+    <dx-button
+      text="Previsualizar"
+      type="default"
+      (onClick)="save()"
+    ></dx-button>
     <dx-button text="Guardar" type="success" (onClick)="save()"></dx-button>
     <dx-button text="Cancelar" type="danger" (onClick)="cancel()"></dx-button>
   </div>

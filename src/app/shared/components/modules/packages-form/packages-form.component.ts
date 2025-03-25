@@ -6,8 +6,12 @@ import {
   NgModule,
   Output,
 } from '@angular/core';
-import { DxButtonModule, DxDataGridModule, DxFormModule } from 'devextreme-angular';
-import { PackageModel, ServiceModel } from '../../../models';
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxFormModule,
+} from 'devextreme-angular';
+import { ActivityModel, PackageModel, ServiceModel } from '../../../models';
 
 @Component({
   selector: 'app-packages-form',
@@ -19,6 +23,7 @@ export class PackagesFormComponent {
   @Input() package: PackageModel = new PackageModel(); // Recibe la actividad desde el componente padre
   @Output() onSave = new EventEmitter<PackageModel>(); // Emite el evento al guardar
   @Output() onCancel = new EventEmitter<void>(); // Emite el evento al cancelar
+  activities: ActivityModel[] = []; // Lista de actividades
 
   services: ServiceModel[] = []; // Lista de servicios
 
@@ -35,4 +40,4 @@ export class PackagesFormComponent {
   declarations: [PackagesFormComponent],
   exports: [PackagesFormComponent],
 })
-export class PackagesFormModule { }
+export class PackagesFormModule {}
