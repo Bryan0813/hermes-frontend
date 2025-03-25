@@ -7,7 +7,7 @@ export const navigation = [
   {
     text: 'Roles',
     path: '/roles',
-    icon: 'user',
+    icon: 'accountbox',
   },
   {
     text: 'Categorias',
@@ -17,12 +17,12 @@ export const navigation = [
   {
     text: 'Servicios',
     path: '/services',
-    icon: 'smalliconslayout',
+    icon: 'food',
   },
   {
     text: 'Actividades',
     path: '/activities',
-    icon: 'pinmap',
+    icon: 'palette',
   },
   {
     text: 'Paquetes',
