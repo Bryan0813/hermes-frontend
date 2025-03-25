@@ -1,2 +1,36 @@
-<p>roles works!</p>
-<p>{{ data }}</p>
+<div class="header">
+    <h2>Roles</h2>
+    <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
+    </dx-button>
+  </div>
+  
+  <div class="container content-block">
+    <!-- table -->
+    <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="roles" [showBorders]="true"
+      [columnAutoWidth]="true">
+      <!-- opciones de la tabla -->
+  
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+  
+      <!-- Columnas -->
+      <dxi-column dataField="id" dataType="number" width="100" alignment="left"></dxi-column>
+      <dxi-column dataField="name" dataType="string" width="500" alignment="left"></dxi-column>
+  
+      <!-- botones de accion -->
+      <dxi-column type="buttons" width="100" alignment="left">
+        <dxi-button name="edit" [visible]="true" [onClick]="editRole">
+        </dxi-button>
+        <dxi-button name="delete" [visible]="true" [onClick]="deleteRole">
+        </dxi-button>
+      </dxi-column>
+  
+      <dxo-paging [pageSize]="5"></dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [showInfo]="true" [visible]="true"></dxo-pager>
+    </dx-data-grid>
+  
+    <!-- Popup -->
+    <app-popup [(visible)]="popupVisible" [width]="400" [height]="300" title="Rol">
+      <app-roles-form [role]="role" (onSave)="saveRole($event)"
+        (onCancel)="closePopup()"></app-roles-form>
+    </app-popup>
+  </div>
