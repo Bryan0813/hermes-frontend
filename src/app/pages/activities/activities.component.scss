@@ -1,14 +1,24 @@
 .header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-between; /* Opcional: ajusta la separación */
-  margin-bottom: 20px; /* Espaciado debajo del encabezado */
+  padding: 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
 
-  h2 {
-    margin: 0; /* Elimina el margen del título */
-  }
+.container {
+  padding: 16px;
+}
 
-  dx-button {
-    margin-left: 20px; /* Espaciado entre el título y el botón */
-  }
+.dx-card {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dx-data-grid {
+  margin-top: 16px;
+}
+
+.dx-button {
+  margin-left: 8px;
 }
