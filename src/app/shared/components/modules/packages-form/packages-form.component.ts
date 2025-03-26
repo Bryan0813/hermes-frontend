@@ -27,8 +27,7 @@ import { ActivityService, ServiceService } from '../../../services/modules';
 })
 export class PackagesFormComponent {
   @Input() package: PackageModel = new PackageModel();
-  @Output() onSavePackage = new EventEmitter<PackageModel>();
-  @Output() onSaveServices = new EventEmitter<PackageServiceModel[]>();
+  @Output() onSavePackage = new EventEmitter<any>();
   @Output() onCancel = new EventEmitter<void>();
 
   activities: ActivityModel[] = [];
@@ -86,7 +85,7 @@ export class PackagesFormComponent {
         this.servicesToPackage.push({
           idService: serviceFound.id,
           quantity: 1,
-          price: serviceFound.price,
+          price: +serviceFound.price,
           name: serviceFound.name,
         });
       }
@@ -108,12 +107,21 @@ export class PackagesFormComponent {
   }
 
   save() {
-    this.onSavePackage.emit(this.package);
-    this.onSaveServices.emit(this.servicesToPackage);
+    // Emitir el paquete y los servicios asociados como un solo objeto
+    this.onSavePackage.emit({
+      pkg: this.package,
+      services: this.servicesToPackage,
+    });
+    this.clear();
   }
 
   cancel() {
     this.onCancel.emit();
+  }
+
+  clear() {
+    this.package = new PackageModel();
+    this.servicesToPackage = [];
   }
   //#endregion
 }

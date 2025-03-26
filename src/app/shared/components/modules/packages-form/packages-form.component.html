@@ -55,9 +55,14 @@
     <dxi-item
       dataField="description"
       editorType="dxTextArea"
-      [editorOptions]="{ maxLength: 255, height: 60, autoResize: true }"
+      [editorOptions]="{ maxLength: 255, height: 60 }"
     >
       <dxo-label text="Descripción"></dxo-label>
+      <dxi-validation-rule
+        type="required"
+        message="La descripcion del paquete es obligatorias"
+      >
+      </dxi-validation-rule>
     </dxi-item>
   </dx-form>
 
