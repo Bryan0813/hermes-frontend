@@ -49,19 +49,25 @@ export class PackagesComponent {
     });
   }
 
-  // Método para cargar todos los servicios
+  // Método para cargar los servicios por paquete
   getServiceByPackage($event: any) {
     const id = $event.selectedRowsData[0].id;
+
     if (!id) {
       console.error('No se pudo obtener el ID del paquete.');
       return;
     }
+
     this.packageService.getServicePackages(+id).subscribe({
       next: (serviceByPackage) => {
         this.serviceByPackage = serviceByPackage;
-        console.log(this.serviceByPackage);
+        $event.component.collapseAll(-1);
+        $event.component.expandRow($event.currentSelectedRowKeys[0]);
       },
-      error: (err) => console.error(err.error.message),
+      error: (err) => {
+        $event.component.collapseAll(-1);
+        console.error(err.error.message);
+      },
     });
   }
 
@@ -84,7 +90,6 @@ export class PackagesComponent {
           this.package = new PackageModel();
         },
         error: (err) => console.error(err.error.message),
-
       });
     }
   }
@@ -168,5 +173,5 @@ export class PackagesComponent {
   ],
   exports: [PackagesComponent],
 })
-export class PackagesModule { }
+export class PackagesModule {}
 //#endregion

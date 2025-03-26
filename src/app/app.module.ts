@@ -23,6 +23,7 @@ import {
   CategoryServiceService,
   PackageService,
   PermitsService,
+  RolesService,
   ServiceService,
 } from './shared/services/modules';
 
@@ -53,6 +54,7 @@ import {
     ServiceService,
     ActivityService,
     PackageService,
+    RolesService
   ],
   bootstrap: [AppComponent],
 })
