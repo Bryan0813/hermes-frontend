@@ -26,7 +26,7 @@ export class RolesComponent {
   }
 
   ngOnInit(): void {
-    // this.getAllRoles();
+    this.getAllRoles();
   }
   //#endregion
 
@@ -131,5 +131,5 @@ export class RolesComponent {
   ],
   exports: [RolesComponent],
 })
-export class RolesModule {}
+export class RolesModule { }
 //#endregion

@@ -5,81 +5,32 @@
 </div>
 
 <div class="container content-block">
-  <dx-data-grid
-    class="dx-card content-block"
-    keyExpr="id"
-    width="100%"
-    [dataSource]="services"
-    [showBorders]="true"
-    [columnAutoWidth]="true"
-    (onCellPrepared)="onCellPrepared($event)"
-  >
+  <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="services" [showBorders]="true"
+    [columnAutoWidth]="true" (onCellPrepared)="onCellPrepared($event)">
     <!-- opciones de la tabla -->
 
-    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+
 
     <!-- Columnas -->
-    <dxi-column
-      dataField="id"
-      caption="Identificador"
-      dataType="number"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="name"
-      caption="Nombre"
-      dataType="string"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="price"
-      caption="Precio"
-      dataType="number"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="status"
-      caption="Estado"
-      dataType="string"
-      alignment="left"
-    ></dxi-column>
+    <dxi-column dataField="id" caption="Identificador" dataType="number" alignment="left"></dxi-column>
+    <dxi-column dataField="name" caption="Nombre" dataType="string" alignment="left"></dxi-column>
+    <dxi-column dataField="price" caption="Precio" dataType="number" alignment="left"></dxi-column>
+    <dxi-column dataField="status" caption="Estado" dataType="string" alignment="left"></dxi-column>
 
     <!-- botones de accion -->
     <dxi-column type="buttons" alignment="left">
-      <dxi-button
-        name="edit"
-        icon="edit"
-        [visible]="true"
-        [onClick]="editService"
-      >
+      <dxi-button name="edit" icon="edit" [visible]="true" [onClick]="editService">
       </dxi-button>
-      <dxi-button
-        name="delete"
-        icon="refresh"
-        [visible]="true"
-        [onClick]="changeStatus"
-      >
+      <dxi-button name="delete" icon="refresh" [visible]="true" [onClick]="changeStatus">
       </dxi-button>
     </dxi-column>
 
     <dxo-paging [pageSize]="5"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [showInfo]="true"
-      [visible]="true"
-    ></dxo-pager>
+    <dxo-pager [showPageSizeSelector]="true" [showInfo]="true" [visible]="true"></dxo-pager>
   </dx-data-grid>
 
-  <app-popup
-    [(visible)]="popupVisible"
-    [width]="400"
-    [height]="400"
-    title="Servicio"
-  >
-    <app-service-form
-      [service]="service"
-      (onSave)="saveService($event)"
-      (onCancel)="closePopup()"
-    ></app-service-form>
+  <app-popup [(visible)]="popupVisible" [width]="400" [height]="400" title="Servicio">
+    <app-service-form [service]="service" (onSave)="saveService($event)" (onCancel)="closePopup()"></app-service-form>
   </app-popup>
 </div>

@@ -5,73 +5,27 @@
 </div>
 
 <div class="container content-block">
-  <dx-data-grid
-    class="dx-card content-block"
-    keyExpr="id"
-    width="100%"
-    [dataSource]="packages"
-    [showBorders]="true"
-    [columnAutoWidth]="true"
-    (onCellPrepared)="onCellPrepared($event)"
-    (onSelectionChanged)="getServiceByPackage($event)"
-  >
+  <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="packages" [showBorders]="true"
+    [columnAutoWidth]="true" (onCellPrepared)="onCellPrepared($event)"
+    (onSelectionChanged)="getServiceByPackage($event)">
     <!-- opciones de la tabla -->
 
-    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+
 
     <!-- Columnas -->
-    <dxi-column
-      dataField="id"
-      caption="Identificador"
-      dataType="number"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="activity"
-      caption="Nombre"
-      dataType="string"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="start"
-      caption="Fecha de inicio"
-      dataType="date"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="end"
-      caption="Fecha de fin"
-      dataType="date"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="price"
-      caption="Precio"
-      dataType="number"
-      alignment="left"
-    ></dxi-column>
-    <dxi-column
-      dataField="status"
-      caption="Estado"
-      dataType="string"
-      alignment="left"
-    ></dxi-column>
+    <dxi-column dataField="id" caption="Identificador" dataType="number" alignment="left"></dxi-column>
+    <dxi-column dataField="activity" caption="Nombre" dataType="string" alignment="left"></dxi-column>
+    <dxi-column dataField="start" caption="Fecha de inicio" dataType="date" alignment="left"></dxi-column>
+    <dxi-column dataField="end" caption="Fecha de fin" dataType="date" alignment="left"></dxi-column>
+    <dxi-column dataField="price" caption="Precio" dataType="number" alignment="left"></dxi-column>
+    <dxi-column dataField="status" caption="Estado" dataType="string" alignment="left"></dxi-column>
 
     <!-- botones de accion -->
     <dxi-column type="buttons" alignment="left">
-      <dxi-button
-        name="edit"
-        icon="edit"
-        [visible]="true"
-        [onClick]="editPackage"
-      >
+      <dxi-button name="edit" icon="edit" [visible]="true" [onClick]="editPackage">
       </dxi-button>
-      <dxi-button
-        name="delete"
-        icon="refresh"
-        [visible]="true"
-        [onClick]="changeStatus"
-      >
+      <dxi-button name="delete" icon="refresh" [visible]="true" [onClick]="changeStatus">
       </dxi-button>
     </dxi-column>
 
@@ -79,52 +33,19 @@
     <dxo-selection mode="single"></dxo-selection>
     <dxo-master-detail [enabled]="false" template="details"></dxo-master-detail>
     <div *dxTemplate="let detail of 'details'">
-      <dx-data-grid
-        class="dx-card content-block"
-        keyExpr="id"
-        [dataSource]="serviceByPackage"
-        [columnAutoWidth]="true"
-      >
+      <dx-data-grid class="dx-card content-block" keyExpr="id" [dataSource]="serviceByPackage" [columnAutoWidth]="true">
         <!-- Columnas -->
-        <dxi-column
-          dataField="idService"
-          caption="Servicio"
-          dataType="number"
-          alignment="left"
-        ></dxi-column>
-        <dxi-column
-          dataField="quantity"
-          caption="Cantidad"
-          dataType="number"
-          alignment="left"
-        ></dxi-column>
-        <dxi-column
-          dataField="price"
-          caption="Precio"
-          dataType="number"
-          alignment="left"
-        ></dxi-column>
+        <dxi-column dataField="idService" caption="Servicio" dataType="number" alignment="left"></dxi-column>
+        <dxi-column dataField="quantity" caption="Cantidad" dataType="number" alignment="left"></dxi-column>
+        <dxi-column dataField="price" caption="Precio" dataType="number" alignment="left"></dxi-column>
       </dx-data-grid>
     </div>
 
     <dxo-paging [pageSize]="5"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [showInfo]="true"
-      [visible]="true"
-    ></dxo-pager>
+    <dxo-pager [showPageSizeSelector]="true" [showInfo]="true" [visible]="true"></dxo-pager>
   </dx-data-grid>
 
-  <app-popup
-    [(visible)]="popupVisible"
-    [width]="1200"
-    [height]="650"
-    title="Paquete"
-  >
-    <app-packages-form
-      [package]="package"
-      (onSave)="savePackage($event)"
-      (onCancel)="closePopup()"
-    ></app-packages-form>
+  <app-popup [(visible)]="popupVisible" [width]="1200" [height]="650" title="Paquete">
+    <app-packages-form [package]="package" (onSave)="savePackage($event)" (onCancel)="closePopup()"></app-packages-form>
   </app-popup>
 </div>

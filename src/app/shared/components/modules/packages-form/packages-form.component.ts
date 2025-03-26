@@ -11,7 +11,7 @@ import {
   DxDataGridModule,
   DxFormModule,
 } from 'devextreme-angular';
-import { ActivityModel, PackageModel, ServiceModel } from '../../../models';
+import { ActivityModel, PackageModel, PackageServiceModel, ServiceModel } from '../../../models';
 import { ActivityService, ServiceService } from '../../../services/modules';
 
 @Component({
@@ -27,7 +27,7 @@ export class PackagesFormComponent {
   activities: ActivityModel[] = []; // Lista de actividades
   services: ServiceModel[] = []; // Lista de servicios
   service: ServiceModel = new ServiceModel(); // Servicio seleccionado
-  servicesToPackage: ServiceModel[] = []; // Lista de servicios a agregar al paquete
+  servicesToPackage = new Array(); // Lista de servicios a agregar al paquete
 
   constructor(
     private activyService: ActivityService,
@@ -59,21 +59,39 @@ export class PackagesFormComponent {
 
   //#region Eventos
   addServiceFromPackage($event: any) {
-    if ($event.value) {
-      const serviceFound = this.services.find(
-        (service) => service.id === $event.value
+    const serviceId = $event.value;
+
+    const serviceFound = this.services.find(
+      (service) => service.id === serviceId
+    );
+
+    if (serviceFound) {
+      // Verifica si el servicio ya está en la lista
+      const existingService = this.servicesToPackage.find(
+        (s) => s.idService === serviceFound.id
       );
-      if (serviceFound) {
-        this.servicesToPackage.push(serviceFound);
+
+      if (existingService) {
+        // Si ya existe, incrementa la cantidad
+        existingService.quantity += 1;
+      } else {
+        // Si no existe, agrégalo con cantidad inicial de 1
+        this.servicesToPackage.push({
+          idService: serviceFound.id,
+          quantity: 1,
+          price: serviceFound.price,
+          name: serviceFound.name,
+        });
       }
     }
   }
 
   removeServiceFromPackage($event: any) {
-    const service = $event.data;
+    const service = $event.row.data;
+
     if (service) {
       const index = this.servicesToPackage.findIndex(
-        (s) => s.id === service.id
+        (s) => s.idService === service.idService // Asegúrate de comparar correctamente por idService
       );
       if (index !== -1) {
         this.servicesToPackage.splice(index, 1); // Elimina el servicio del array
@@ -96,4 +114,4 @@ export class PackagesFormComponent {
   declarations: [PackagesFormComponent],
   exports: [PackagesFormComponent],
 })
-export class PackagesFormModule {}
+export class PackagesFormModule { }
