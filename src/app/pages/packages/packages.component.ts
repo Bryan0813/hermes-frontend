@@ -94,6 +94,20 @@ export class PackagesComponent {
     }
   }
 
+  saveServicesFromPackage(services: PackageServiceModel[]) {
+    services.forEach((service) => {
+      service.idPackage = this.package.id;
+      this.packageService.createServicePackage(service).subscribe({
+        next: () => {
+          this.getAllPackages();
+          this.popupVisible = false;
+          this.package = new PackageModel();
+        },
+        error: (err) => console.error(err.error.message),
+      });
+    });
+  }
+
   // Método para editar un paquete
   editPackage($event: any): void {
     const id = $event.row.key;

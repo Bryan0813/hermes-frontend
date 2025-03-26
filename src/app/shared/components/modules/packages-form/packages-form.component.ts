@@ -11,7 +11,12 @@ import {
   DxDataGridModule,
   DxFormModule,
 } from 'devextreme-angular';
-import { ActivityModel, PackageModel, PackageServiceModel, ServiceModel } from '../../../models';
+import {
+  ActivityModel,
+  PackageModel,
+  PackageServiceModel,
+  ServiceModel,
+} from '../../../models';
 import { ActivityService, ServiceService } from '../../../services/modules';
 
 @Component({
@@ -21,13 +26,15 @@ import { ActivityService, ServiceService } from '../../../services/modules';
   styleUrl: './packages-form.component.scss',
 })
 export class PackagesFormComponent {
-  @Input() package: PackageModel = new PackageModel(); // Recibe la actividad desde el componente padre
-  @Output() onSave = new EventEmitter<PackageModel>(); // Emite el evento al guardar
-  @Output() onCancel = new EventEmitter<void>(); // Emite el evento al cancelar
-  activities: ActivityModel[] = []; // Lista de actividades
-  services: ServiceModel[] = []; // Lista de servicios
-  service: ServiceModel = new ServiceModel(); // Servicio seleccionado
-  servicesToPackage = new Array(); // Lista de servicios a agregar al paquete
+  @Input() package: PackageModel = new PackageModel();
+  @Output() onSavePackage = new EventEmitter<PackageModel>();
+  @Output() onSaveServices = new EventEmitter<PackageServiceModel[]>();
+  @Output() onCancel = new EventEmitter<void>();
+
+  activities: ActivityModel[] = [];
+  services: ServiceModel[] = [];
+  service: ServiceModel = new ServiceModel();
+  servicesToPackage = new Array();
 
   constructor(
     private activyService: ActivityService,
@@ -101,7 +108,8 @@ export class PackagesFormComponent {
   }
 
   save() {
-    this.onSave.emit(this.package);
+    this.onSavePackage.emit(this.package);
+    this.onSaveServices.emit(this.servicesToPackage);
   }
 
   cancel() {
@@ -114,4 +122,4 @@ export class PackagesFormComponent {
   declarations: [PackagesFormComponent],
   exports: [PackagesFormComponent],
 })
-export class PackagesFormModule { }
+export class PackagesFormModule {}

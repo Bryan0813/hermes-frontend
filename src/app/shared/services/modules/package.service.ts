@@ -6,7 +6,7 @@ import { PackageModel, PackageServiceModel } from '../../models';
 
 @Injectable()
 export class PackageService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<PackageModel[]> {
     return this.http.get<PackageModel[]>(API.packages);
@@ -24,6 +24,15 @@ export class PackageService {
 
   create(pkg: PackageModel): Observable<PackageModel[]> {
     return this.http.post<PackageModel[]>(API.packages, pkg);
+  }
+
+  createServicePackage(
+    servicePackage: PackageServiceModel
+  ): Observable<PackageServiceModel[]> {
+    return this.http.post<PackageServiceModel[]>(
+      API.packageServices,
+      servicePackage
+    );
   }
 
   update(pkg: PackageModel): Observable<PackageModel[]> {
