@@ -23,14 +23,14 @@ export class PackagesComponent {
   package: PackageModel = new PackageModel(); // Paquete individual
   packages: PackageModel[] = []; // Array de todos los paquetes
   serviceByPackage: PackageServiceModel[] = []; // Array de servicios por paquete
+  idPackage: number = 0;
   //#endregion
 
   //#region constructor e init
   constructor(private packageService: PackageService) {
     this.changeStatus = this.changeStatus.bind(this);
     this.editPackage = this.editPackage.bind(this);
-    this.onCellPrepared = this.onCellPrepared.bind(this);
-    this.getServiceByPackage = this.getServiceByPackage.bind(this);
+    this.saveServices = this.saveServices.bind(this);
   }
 
   ngOnInit(): void {
@@ -71,27 +71,50 @@ export class PackagesComponent {
     });
   }
 
-  // Método para guardar un paquete
-  savePackage(pkg: PackageModel) {
+  // Método para guardar un paquete y sus servicios
+  savePackage(data: { pkg: PackageModel; services: PackageServiceModel[] }) {
+    const { pkg, services } = data; // Desestructurar el paquete y los servicios
+
     if (pkg.id) {
+      // Actualizar paquete existente
       this.packageService.update(pkg).subscribe({
         next: () => {
-          this.getAllPackages();
-          this.popupVisible = false;
-          this.package = new PackageModel();
+          this.saveServices(services); // Guardar los servicios asociados
+          this.getAllPackages(); // Recargar los paquetes
+          this.popupVisible = false; // Cerrar el popup
+          this.package = new PackageModel(); // Reiniciar el paquete
         },
         error: (err) => console.error(err.error.message),
       });
     } else {
+      // Crear nuevo paquete
       this.packageService.create(pkg).subscribe({
-        next: () => {
-          this.getAllPackages();
-          this.popupVisible = false;
-          this.package = new PackageModel();
+        next: (pkgCreated) => {
+          this.idPackage = pkgCreated.id;
+
+          // Asignar el ID del paquete a los servicios
+          services.forEach((service) => {
+            service.idPackage = this.idPackage;
+          });
+
+          this.saveServices(services); // Guardar los servicios asociados
+          this.getAllPackages(); // Recargar los paquetes
+          this.popupVisible = false; // Cerrar el popup
+          this.package = new PackageModel(); // Reiniciar el paquete
         },
         error: (err) => console.error(err.error.message),
       });
     }
+  }
+
+  // Método para guardar los servicios asociados a un paquete
+  saveServices(services: PackageServiceModel[]) {
+    services.forEach((service) => {
+      this.packageService.createServicePackage(service).subscribe({
+        next: () => console.log('Servicio asociado al paquete:', service),
+        error: (err) => console.error(err.error.message),
+      });
+    });
   }
 
   // Método para editar un paquete

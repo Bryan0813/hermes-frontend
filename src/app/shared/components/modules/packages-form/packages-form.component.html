@@ -2,61 +2,110 @@
   <!-- form -->
   <dx-form id="form" [formData]="package" labelLocation="left">
     <!-- Select para seleccionar una actividad -->
-    <dxi-item dataField="idActivity" editorType="dxSelectBox" [editorOptions]="{
+    <dxi-item
+      dataField="idActivity"
+      editorType="dxSelectBox"
+      [editorOptions]="{
         dataSource: activities,
         displayExpr: 'name',
         valueExpr: 'id',
         placeholder: 'Seleccione una actividad',
         showClearButton: true
-      }">
+      }"
+    >
       <dxo-label text="Actividad"></dxo-label>
-      <dxi-validation-rule type="required" message="La actividad del paquete es obligatoria"></dxi-validation-rule>
+      <dxi-validation-rule
+        type="required"
+        message="La actividad del paquete es obligatoria"
+      ></dxi-validation-rule>
     </dxi-item>
     <dxi-item dataField="activity" editorType="dxTextBox">
       <dxo-label text="Nombre"></dxo-label>
-      <dxi-validation-rule type="required" message="El nombre de la actividad es obligatorio">
+      <dxi-validation-rule
+        type="required"
+        message="El nombre de la actividad es obligatorio"
+      >
       </dxi-validation-rule>
     </dxi-item>
-    <dxi-item dataField="level" editorType="dxTextBox">
+    <dxi-item dataField="level" editorType="dxNumberBox">
       <dxo-label text="Nivel"></dxo-label>
     </dxi-item>
     <!-- Select para seleccionar servicios -->
-    <dxi-item dataField="service" editorType="dxSelectBox" [editorOptions]="{
+    <dxi-item
+      dataField="service"
+      editorType="dxSelectBox"
+      [editorOptions]="{
         dataSource: services,
         displayExpr: 'name',
         valueExpr: 'id',
         placeholder: 'Seleccione un servicio',
         showClearButton: true,
         onValueChanged: addServiceFromPackage
-      }" colSpan="2">
+      }"
+      colSpan="2"
+    >
       <dxo-label text="Servicio"></dxo-label>
     </dxi-item>
-    <dxi-item dataField="price" editorType="dxTextBox">
+    <dxi-item dataField="price" editorType="dxNumberBox">
       <dxo-label text="Precio"></dxo-label>
     </dxi-item>
-    <dxi-item dataField="reserve" editorType="dxTextBox">
+    <dxi-item dataField="reserve" editorType="dxNumberBox">
       <dxo-label text="Reserva"></dxo-label>
     </dxi-item>
-    <dxi-item dataField="description" editorType="dxTextArea"
-      [editorOptions]="{ maxLength: 255, height: 60, autoResize: true }">
+    <dxi-item
+      dataField="description"
+      editorType="dxTextArea"
+      [editorOptions]="{ maxLength: 255, height: 60 }"
+    >
       <dxo-label text="Descripción"></dxo-label>
+      <dxi-validation-rule
+        type="required"
+        message="La descripcion del paquete es obligatorias"
+      >
+      </dxi-validation-rule>
     </dxi-item>
   </dx-form>
 
   <!-- table -->
-  <dx-data-grid class="dx-card content-block" keyExpr="idService" width="100%" [dataSource]="servicesToPackage"
-    [columnAutoWidth]="true">
-    <dxi-column dataField="name" dataType="string" alignment="left"></dxi-column>
-    <dxi-column dataField="price" dataType="number" alignment="left"></dxi-column>
-    <dxi-column dataField="quantity" dataType="number" alignment="left"></dxi-column>
+  <dx-data-grid
+    class="dx-card content-block"
+    keyExpr="idService"
+    width="100%"
+    [dataSource]="servicesToPackage"
+    [columnAutoWidth]="true"
+  >
+    <dxi-column
+      dataField="name"
+      dataType="string"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="price"
+      dataType="number"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="quantity"
+      dataType="number"
+      alignment="left"
+    ></dxi-column>
     <dxi-column type="buttons" width="100" alignment="left">
-      <dxi-button name="delete" icon="remove" [visible]="true" [onClick]="removeServiceFromPackage"></dxi-button>
+      <dxi-button
+        name="delete"
+        icon="remove"
+        [visible]="true"
+        [onClick]="removeServiceFromPackage"
+      ></dxi-button>
     </dxi-column>
   </dx-data-grid>
 
   <!-- buttons -->
   <div class="buttons">
-    <dx-button text="Previsualizar" type="default" (onClick)="save()"></dx-button>
+    <dx-button
+      text="Previsualizar"
+      type="default"
+      (onClick)="save()"
+    ></dx-button>
     <dx-button text="Guardar" type="success" (onClick)="save()"></dx-button>
     <dx-button text="Cancelar" type="danger" (onClick)="cancel()"></dx-button>
   </div>

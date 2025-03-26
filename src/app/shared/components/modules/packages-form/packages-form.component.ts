@@ -11,7 +11,12 @@ import {
   DxDataGridModule,
   DxFormModule,
 } from 'devextreme-angular';
-import { ActivityModel, PackageModel, PackageServiceModel, ServiceModel } from '../../../models';
+import {
+  ActivityModel,
+  PackageModel,
+  PackageServiceModel,
+  ServiceModel,
+} from '../../../models';
 import { ActivityService, ServiceService } from '../../../services/modules';
 
 @Component({
@@ -21,13 +26,14 @@ import { ActivityService, ServiceService } from '../../../services/modules';
   styleUrl: './packages-form.component.scss',
 })
 export class PackagesFormComponent {
-  @Input() package: PackageModel = new PackageModel(); // Recibe la actividad desde el componente padre
-  @Output() onSave = new EventEmitter<PackageModel>(); // Emite el evento al guardar
-  @Output() onCancel = new EventEmitter<void>(); // Emite el evento al cancelar
-  activities: ActivityModel[] = []; // Lista de actividades
-  services: ServiceModel[] = []; // Lista de servicios
-  service: ServiceModel = new ServiceModel(); // Servicio seleccionado
-  servicesToPackage = new Array(); // Lista de servicios a agregar al paquete
+  @Input() package: PackageModel = new PackageModel();
+  @Output() onSavePackage = new EventEmitter<any>();
+  @Output() onCancel = new EventEmitter<void>();
+
+  activities: ActivityModel[] = [];
+  services: ServiceModel[] = [];
+  service: ServiceModel = new ServiceModel();
+  servicesToPackage = new Array();
 
   constructor(
     private activyService: ActivityService,
@@ -79,7 +85,7 @@ export class PackagesFormComponent {
         this.servicesToPackage.push({
           idService: serviceFound.id,
           quantity: 1,
-          price: serviceFound.price,
+          price: +serviceFound.price,
           name: serviceFound.name,
         });
       }
@@ -101,11 +107,21 @@ export class PackagesFormComponent {
   }
 
   save() {
-    this.onSave.emit(this.package);
+    // Emitir el paquete y los servicios asociados como un solo objeto
+    this.onSavePackage.emit({
+      pkg: this.package,
+      services: this.servicesToPackage,
+    });
+    this.clear();
   }
 
   cancel() {
     this.onCancel.emit();
+  }
+
+  clear() {
+    this.package = new PackageModel();
+    this.servicesToPackage = [];
   }
   //#endregion
 }
@@ -114,4 +130,4 @@ export class PackagesFormComponent {
   declarations: [PackagesFormComponent],
   exports: [PackagesFormComponent],
 })
-export class PackagesFormModule { }
+export class PackagesFormModule {}
