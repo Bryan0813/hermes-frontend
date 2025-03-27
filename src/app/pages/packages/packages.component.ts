@@ -158,6 +158,10 @@ export class PackagesComponent {
   //#endregion
 
   //#region Eventos
+  reprogramingPopup() {
+    console.log('Luego abrimos el popup');
+  }
+
   showPopup() {
     this.popupVisible = false;
     setTimeout(() => {
