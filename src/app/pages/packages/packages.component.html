@@ -30,27 +30,51 @@
       alignment="left"
     ></dxi-column>
     <dxi-column
-      dataField="activity"
+      dataField="name"
       caption="Nombre"
       dataType="string"
       alignment="left"
     ></dxi-column>
     <dxi-column
-      dataField="start"
-      caption="Fecha de inicio"
-      dataType="date"
+      dataField="idActivity"
+      caption="Actividad"
+      dataType="string"
       alignment="left"
+      [editorOptions]="
+      {
+        items: activities,
+        valueField: 'id',
+        displayExpr: 'name',
+      }"
     ></dxi-column>
     <dxi-column
-      dataField="end"
-      caption="Fecha de fin"
-      dataType="date"
+      dataField="idMunicipality"
+      caption="Lugar"
+      dataType="string"
+      alignment="left"
+      [editorOptions]="
+      {
+        items: municipalities,
+        valueField: 'id',
+        displayExpr: 'name',
+      }"
+    ></dxi-column>
+    <dxi-column
+      dataField="level"
+      caption="Nivel"
+      dataType="number"
       alignment="left"
     ></dxi-column>
     <dxi-column
       dataField="price"
       caption="Precio"
       dataType="number"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="description"
+      caption="Descripción"
+      dataType="string"
       alignment="left"
     ></dxi-column>
     <dxi-column
@@ -101,6 +125,12 @@
           caption="Servicio"
           dataType="number"
           alignment="left"
+          [editorOptions]="
+          {
+            items: services,
+            valueField: 'id',
+            displayExpr: 'name',
+          }"
         ></dxi-column>
         <dxi-column
           dataField="quantity"

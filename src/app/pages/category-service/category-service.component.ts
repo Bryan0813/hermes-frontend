@@ -21,7 +21,7 @@ export class CategoryServiceComponent {
 
   //#region constructor e init
   constructor(private categoryServiceService: CategoryServiceService) {
-    this.deleteCategoryService = this.deleteCategoryService.bind(this);
+    this.changeStatusCategoryService = this.changeStatusCategoryService.bind(this);
     this.editCategoryService = this.editCategoryService.bind(this);
   }
 
@@ -80,7 +80,7 @@ export class CategoryServiceComponent {
   }
 
   // Método para eliminar una categoría
-  deleteCategoryService($event: any): void {
+  changeStatusCategoryService($event: any): void {
     const id = $event.row.key;
 
     if (!id) {
@@ -93,7 +93,7 @@ export class CategoryServiceComponent {
     );
 
     if (confirmDelete) {
-      this.categoryServiceService.delete(id).subscribe({
+      this.categoryServiceService.changeStatus(id).subscribe({
         next: () => {
           this.getAllCategories();
         },
@@ -115,6 +115,26 @@ export class CategoryServiceComponent {
   closePopup() {
     this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
     this.popupVisible = false; // Cerrar el popup
+  }
+  //#endregion
+
+  //#region conditions
+  // Método para cambiar el color del texto de la celda según el estado del servicio
+  onCellPrepared(e: any) {
+    if (e.rowType === 'data' && e.column.dataField === 'status') {
+      e.cellElement.style.color = e.data.status === true ? 'green' : 'red';
+      e.cellElement.textContent =
+        e.data.status === true ? 'Activo' : 'Inactivo';
+
+      // e.watch(
+      //   function () {
+      //     return e.data.status;
+      //   },
+      //   function () {
+      //     e.cellElement.style.color = e.data.status === true ? 'green' : 'red';
+      //   }
+      // );
+    }
   }
   //#endregion
 }

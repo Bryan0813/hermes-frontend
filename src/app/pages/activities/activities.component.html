@@ -7,20 +7,21 @@
 <div class="container content-block">
   <!-- table -->
   <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="activities" [showBorders]="true"
-    [columnAutoWidth]="true">
+    [columnAutoWidth]="true" (onCellPrepared)="onCellPrepared($event)">
     <!-- opciones de la tabla -->
 
     <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
 
     <!-- Columnas -->
-    <dxi-column dataField="id" dataType="number" width="100" alignment="left"></dxi-column>
-    <dxi-column dataField="name" dataType="string" width="500" alignment="left"></dxi-column>
+    <dxi-column dataField="id" caption="Identificador" dataType="number" alignment="left"></dxi-column>
+    <dxi-column dataField="name" caption="Nombre" dataType="string" alignment="left"></dxi-column>
+    <dxi-column dataField="status" caption="Estado" dataType="boolean" alignment="left"></dxi-column>
 
     <!-- botones de accion -->
     <dxi-column type="buttons" width="100" alignment="left">
-      <dxi-button name="edit" [visible]="true" [onClick]="editActivity">
+      <dxi-button name="edit" icon="edit" [visible]="true" [onClick]="editActivity">
       </dxi-button>
-      <dxi-button name="delete" [visible]="true" [onClick]="deleteActivity">
+      <dxi-button name="delete" icon="refresh" [visible]="true" [onClick]="changeStatusActivity">
       </dxi-button>
     </dxi-column>
 
