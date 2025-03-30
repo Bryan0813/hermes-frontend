@@ -30,7 +30,7 @@ export class CategoryServiceService {
     );
   }
 
-  delete(id: number): Observable<CategoryServiceModel> {
-    return this.http.delete<CategoryServiceModel>(API.categoryServices + id);
+  changeStatus(id: number): Observable<CategoryServiceModel> {
+    return this.http.patch<CategoryServiceModel>(API.categoryServices + id, {});
   }
 }

@@ -9,7 +9,7 @@ import { PackageModel } from '../../shared/models/package';
 import { PackageService } from '../../shared/services/modules/package.service';
 import { PopupModule } from '../../shared/components';
 import { PackagesFormModule } from '../../shared/components/modules';
-import { PackageServiceModel } from '../../shared/models';
+import { ActivityModel, MunicipalityModel, PackageServiceModel, ServiceModel } from '../../shared/models';
 
 @Component({
   selector: 'app-packages',
@@ -23,6 +23,9 @@ export class PackagesComponent {
   package: PackageModel = new PackageModel(); // Paquete individual
   packages: PackageModel[] = []; // Array de todos los paquetes
   serviceByPackage: PackageServiceModel[] = []; // Array de servicios por paquete
+  services: ServiceModel[] = []; // Array de servicios
+  activities: ActivityModel[] = []; // Array de actividades
+  municipalities: MunicipalityModel[] = []; // Array de municipios
   idPackage: number = 0;
   //#endregion
 

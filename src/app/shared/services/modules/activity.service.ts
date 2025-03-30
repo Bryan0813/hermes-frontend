@@ -24,7 +24,7 @@ export class ActivityService {
     return this.http.put<ActivityModel[]>(API.activities + activity.id, activity);
   }
 
-  delete(id: number): Observable<ActivityModel[]> {
-    return this.http.delete<ActivityModel[]>(API.activities + id);
+  changeStatus(id: number): Observable<ActivityModel[]> {
+    return this.http.patch<ActivityModel[]>(API.activities + id, {});
   }
 }

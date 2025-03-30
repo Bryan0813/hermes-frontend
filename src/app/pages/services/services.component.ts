@@ -72,7 +72,7 @@ export class ServicesComponent {
     }
     this.serviceService.getById(id).subscribe({
       next: (serviceFound) => {
-        this.service = serviceFound;
+        this.service = {...serviceFound, price: +serviceFound.price};
         this.showPopup();
       },
       error: (err) => console.error(err.error.message),
