@@ -17,7 +17,10 @@
   >
     <!-- opciones de la tabla -->
 
-    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-search-panel
+      [visible]="true"
+      [highlightCaseSensitive]="true"
+    ></dxo-search-panel>
 
     <!-- Columnas -->
     <dxi-column
@@ -27,27 +30,51 @@
       alignment="left"
     ></dxi-column>
     <dxi-column
-      dataField="activity"
+      dataField="name"
       caption="Nombre"
       dataType="string"
       alignment="left"
     ></dxi-column>
     <dxi-column
-      dataField="start"
-      caption="Fecha de inicio"
-      dataType="date"
+      dataField="idActivity"
+      caption="Actividad"
+      dataType="string"
       alignment="left"
+      [editorOptions]="
+      {
+        items: activities,
+        valueField: 'id',
+        displayExpr: 'name',
+      }"
     ></dxi-column>
     <dxi-column
-      dataField="end"
-      caption="Fecha de fin"
-      dataType="date"
+      dataField="idMunicipality"
+      caption="Lugar"
+      dataType="string"
+      alignment="left"
+      [editorOptions]="
+      {
+        items: municipalities,
+        valueField: 'id',
+        displayExpr: 'name',
+      }"
+    ></dxi-column>
+    <dxi-column
+      dataField="level"
+      caption="Nivel"
+      dataType="number"
       alignment="left"
     ></dxi-column>
     <dxi-column
       dataField="price"
       caption="Precio"
       dataType="number"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="description"
+      caption="Descripción"
+      dataType="string"
       alignment="left"
     ></dxi-column>
     <dxi-column
@@ -64,6 +91,20 @@
         icon="edit"
         [visible]="true"
         [onClick]="editPackage"
+      >
+      </dxi-button>
+      <dxi-button
+        name="view"
+        icon="eye"
+        [visible]="true"
+        (onClick)="previewPopup()"
+      >
+      </dxi-button>
+      <dxi-button
+        name="edit"
+        icon="event"
+        [visible]="true"
+        (onClick)="reprogramingPopup()"
       >
       </dxi-button>
       <dxi-button
@@ -91,6 +132,12 @@
           caption="Servicio"
           dataType="number"
           alignment="left"
+          [editorOptions]="
+          {
+            items: services,
+            valueField: 'id',
+            displayExpr: 'name',
+          }"
         ></dxi-column>
         <dxi-column
           dataField="quantity"
@@ -123,7 +170,7 @@
   >
     <app-packages-form
       [package]="package"
-      (onSave)="savePackage($event)"
+      (onSavePackage)="savePackage($event)"
       (onCancel)="closePopup()"
     ></app-packages-form>
   </app-popup>

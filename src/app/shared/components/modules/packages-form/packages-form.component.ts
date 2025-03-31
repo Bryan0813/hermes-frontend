@@ -11,7 +11,13 @@ import {
   DxDataGridModule,
   DxFormModule,
 } from 'devextreme-angular';
-import { ActivityModel, PackageModel, ServiceModel } from '../../../models';
+import {
+  ActivityModel,
+  MunicipalityModel,
+  PackageModel,
+  PackageServiceModel,
+  ServiceModel,
+} from '../../../models';
 import { ActivityService, ServiceService } from '../../../services/modules';
 
 @Component({
@@ -21,13 +27,21 @@ import { ActivityService, ServiceService } from '../../../services/modules';
   styleUrl: './packages-form.component.scss',
 })
 export class PackagesFormComponent {
-  @Input() package: PackageModel = new PackageModel(); // Recibe la actividad desde el componente padre
-  @Output() onSave = new EventEmitter<PackageModel>(); // Emite el evento al guardar
-  @Output() onCancel = new EventEmitter<void>(); // Emite el evento al cancelar
-  activities: ActivityModel[] = []; // Lista de actividades
-  services: ServiceModel[] = []; // Lista de servicios
-  service: ServiceModel = new ServiceModel(); // Servicio seleccionado
-  servicesToPackage: ServiceModel[] = []; // Lista de servicios a agregar al paquete
+  @Input() package: PackageModel = new PackageModel();
+  @Output() onSavePackage = new EventEmitter<any>();
+  @Output() onCancel = new EventEmitter<void>();
+
+  activities: ActivityModel[] = [];
+  services: ServiceModel[] = [];
+  municipalities: MunicipalityModel[] = []
+  level: any[] = [
+    {value:null, name:"No aplica", description:""},
+    { value: 1, name: 'Nivel 1', desciption: '' },
+    {value: 2, name: "Nivel 2", description: ""},
+    {value: 3, name:"Nivel 3", description:""}
+  ];
+  service: ServiceModel = new ServiceModel();
+  servicesToPackage = new Array();
 
   constructor(
     private activyService: ActivityService,
@@ -59,21 +73,39 @@ export class PackagesFormComponent {
 
   //#region Eventos
   addServiceFromPackage($event: any) {
-    if ($event.value) {
-      const serviceFound = this.services.find(
-        (service) => service.id === $event.value
+    const serviceId = $event.value;
+
+    const serviceFound = this.services.find(
+      (service) => service.id === serviceId
+    );
+
+    if (serviceFound) {
+      // Verifica si el servicio ya está en la lista
+      const existingService = this.servicesToPackage.find(
+        (s) => s.idService === serviceFound.id
       );
-      if (serviceFound) {
-        this.servicesToPackage.push(serviceFound);
+
+      if (existingService) {
+        // Si ya existe, incrementa la cantidad
+        existingService.quantity += 1;
+      } else {
+        // Si no existe, agrégalo con cantidad inicial de 1
+        this.servicesToPackage.push({
+          idService: serviceFound.id,
+          quantity: 1,
+          price: +serviceFound.price,
+          name: serviceFound.name,
+        });
       }
     }
   }
 
   removeServiceFromPackage($event: any) {
-    const service = $event.data;
+    const service = $event.row.data;
+
     if (service) {
       const index = this.servicesToPackage.findIndex(
-        (s) => s.id === service.id
+        (s) => s.idService === service.idService // Asegúrate de comparar correctamente por idService
       );
       if (index !== -1) {
         this.servicesToPackage.splice(index, 1); // Elimina el servicio del array
@@ -83,11 +115,21 @@ export class PackagesFormComponent {
   }
 
   save() {
-    this.onSave.emit(this.package);
+    // Emitir el paquete y los servicios asociados como un solo objeto
+    this.onSavePackage.emit({
+      pkg: this.package,
+      services: this.servicesToPackage,
+    });
+    this.clear();
   }
 
   cancel() {
     this.onCancel.emit();
+  }
+
+  clear() {
+    this.package = new PackageModel();
+    this.servicesToPackage = [];
   }
   //#endregion
 }

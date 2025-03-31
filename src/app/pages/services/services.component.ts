@@ -5,6 +5,9 @@ import { ServiceModel } from '../../shared/models';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { ServiceFormModule } from '../../shared/components/modules';
 import { ServiceService } from '../../shared/services/modules';
+import notify from 'devextreme/ui/notify';
+import { message } from '../../shared/constants/message';
+import { NOTIFY_SIZE, SET_TIMEOUT, TYPE_NOTIFY } from '../../shared/constants/utils';
 
 @Component({
   selector: 'app-services',
@@ -33,8 +36,19 @@ export class ServicesComponent {
   //#region metodos & servicios
   // Método para cargar todos los servicios
   getAllServices() {
-    this.serviceService.getAll().subscribe((services) => {
-      if (services) this.services = services;
+    this.serviceService.getAll().subscribe({
+      next: (services) => {
+        this.services = services;
+      },
+      error: (err) =>
+        notify(
+          {
+            message: message('los servicios', 'cargar', false),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.error,
+          SET_TIMEOUT
+        ),
     });
   }
 
@@ -43,22 +57,54 @@ export class ServicesComponent {
     if (service.id) {
       // Actualizar servicio existente
       this.serviceService.update(service).subscribe({
-        next: () => {
+        next: (success) => {
+          notify(
+            {
+              message: message('el servicio', 'actualizado', true),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.success,
+            SET_TIMEOUT
+          );
           this.getAllServices(); // Recargar servicios
           this.popupVisible = false; // Cerrar el popup
           this.service = new ServiceModel(); // Reiniciar el servicio
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) =>
+          notify(
+            {
+              message: message('el servicio', 'actualizar', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          ),
       });
     } else {
       // Crear nuevo servicio
       this.serviceService.create(service).subscribe({
         next: () => {
+          notify(
+            {
+              message: message('el servicio', 'guardado', true),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.success,
+            SET_TIMEOUT
+          );
           this.getAllServices(); // Recargar servicios
           this.popupVisible = false; // Cerrar el popup
           this.service = new ServiceModel(); // Reiniciar el servicio
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) =>
+          notify(
+            {
+              message: message('el servicio', 'guardar', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          ),
       });
     }
   }
@@ -72,14 +118,22 @@ export class ServicesComponent {
     }
     this.serviceService.getById(id).subscribe({
       next: (serviceFound) => {
-        this.service = serviceFound;
+        this.service = { ...serviceFound, price: +serviceFound.price };
         this.showPopup();
       },
-      error: (err) => console.error(err.error.message),
+      error: (err) =>
+        notify(
+          {
+            message: message('el servicio', 'actualizar', false),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.error,
+          SET_TIMEOUT
+        ),
     });
   }
 
-  // Método para eliminar un servicio
+  // Método para cambiar el estado de un servicio
   changeStatus($event: any): void {
     const id = $event.row.key;
 
@@ -95,9 +149,25 @@ export class ServicesComponent {
     if (confirmDelete) {
       this.serviceService.changeStatus(id).subscribe({
         next: () => {
+          notify(
+            {
+              message: message('el servicio', 'cambiado de estado', true),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.success,
+            SET_TIMEOUT
+          );
           this.getAllServices();
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) =>
+          notify(
+            {
+              message: message('el servicio', 'cambiar estado', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          ),
       });
     }
   }
@@ -125,15 +195,6 @@ export class ServicesComponent {
       e.cellElement.style.color = e.data.status === true ? 'green' : 'red';
       e.cellElement.textContent =
         e.data.status === true ? 'Activo' : 'Inactivo';
-
-      // e.watch(
-      //   function () {
-      //     return e.data.status;
-      //   },
-      //   function () {
-      //     e.cellElement.style.color = e.data.status === true ? 'green' : 'red';
-      //   }
-      // );
     }
   }
   //#endregion
@@ -151,5 +212,5 @@ export class ServicesComponent {
   ],
   exports: [ServicesComponent],
 })
-export class ServicesModule { }
+export class ServicesModule {}
 //#endregion

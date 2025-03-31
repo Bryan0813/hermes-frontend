@@ -60,4 +60,4 @@ import { ReservationsFormComponent } from './shared/components/modules/reservati
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

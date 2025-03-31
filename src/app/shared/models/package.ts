@@ -1,12 +1,11 @@
 export class PackageModel {
   id: number = 0;
+  name: string = '';
   idActivity: number = 0;
-  activity: string = '';
-  start: Date = new Date();
-  end: Date = new Date();
-  level: string = '';
+  idMunicipality: number = 0;
+  level: number | null = 0;
   price: number = 0;
   reserve: number = 0;
   description: string = '';
-  status: boolean = true;
+  status: boolean = true; 
 }
