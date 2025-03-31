@@ -13,6 +13,7 @@ import {
 } from 'devextreme-angular';
 import {
   ActivityModel,
+  MunicipalityModel,
   PackageModel,
   PackageServiceModel,
   ServiceModel,
@@ -32,6 +33,13 @@ export class PackagesFormComponent {
 
   activities: ActivityModel[] = [];
   services: ServiceModel[] = [];
+  municipalities: MunicipalityModel[] = []
+  level: any[] = [
+    {value:null, name:"No aplica", description:""},
+    { value: 1, name: 'Nivel 1', desciption: '' },
+    {value: 2, name: "Nivel 2", description: ""},
+    {value: 3, name:"Nivel 3", description:""}
+  ];
   service: ServiceModel = new ServiceModel();
   servicesToPackage = new Array();
 

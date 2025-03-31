@@ -161,10 +161,18 @@ export class PackagesComponent {
   //#endregion
 
   //#region Eventos
+
+  // Método para abrir el popup de reprogramación
   reprogramingPopup() {
     console.log('Luego abrimos el popup');
   }
 
+  // Método para abrir el popup de previsualización
+  previewPopup() {
+    console.log('Luego abrimos el popup');
+  }
+
+  // Método para mostrar el popup
   showPopup() {
     this.popupVisible = false;
     setTimeout(() => {
@@ -172,6 +180,7 @@ export class PackagesComponent {
     }, 0);
   }
 
+  // 
   closePopup() {
     this.package = new PackageModel();
     this.popupVisible = false;
