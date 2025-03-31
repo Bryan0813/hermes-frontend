@@ -1,7 +1,16 @@
 <div class="container">
   <!-- form -->
   <dx-form id="form" [formData]="package" labelLocation="left">
+
     <!-- Select para seleccionar una actividad -->
+    <dxi-item dataField="name" editorType="dxTextBox">
+      <dxo-label text="Nombre"></dxo-label>
+      <dxi-validation-rule
+        type="required"
+        message="El nombre del paquete es obligatorio"
+      >
+      </dxi-validation-rule>
+    </dxi-item>
     <dxi-item
       dataField="idActivity"
       editorType="dxSelectBox"
@@ -19,15 +28,36 @@
         message="La actividad del paquete es obligatoria"
       ></dxi-validation-rule>
     </dxi-item>
-    <dxi-item dataField="activity" editorType="dxTextBox">
-      <dxo-label text="Nombre"></dxo-label>
+
+    <dxi-item
+      dataField="idMunicipality"
+      editorType="dxSelectBox"
+      [editorOptions]="{
+        dataSource: municipalities,
+        displayExpr: 'name',
+        valueExpr: 'id',
+        placeholder: 'Seleccione un municipio',
+        showClearButton: true
+      }"
+    >
+      <dxo-label text="Municipio"></dxo-label>
       <dxi-validation-rule
         type="required"
-        message="El nombre de la actividad es obligatorio"
-      >
-      </dxi-validation-rule>
+        message="El municipio del paquete es obligatorio"
+      ></dxi-validation-rule>
     </dxi-item>
-    <dxi-item dataField="level" editorType="dxNumberBox">
+    
+    <dxi-item
+      dataField="level"
+      editorType="dxSelectBox"
+      [editorOptions]="{
+        dataSource: level,
+        displayExpr: 'name',
+        valueExpr: 'value',
+        placeholder: 'Seleccione un nivel',
+        showClearButton: true
+      }"
+    >
       <dxo-label text="Nivel"></dxo-label>
     </dxi-item>
     <!-- Select para seleccionar servicios -->
@@ -42,16 +72,18 @@
         showClearButton: true,
         onValueChanged: addServiceFromPackage
       }"
-      colSpan="2"
     >
       <dxo-label text="Servicio"></dxo-label>
     </dxi-item>
+
     <dxi-item dataField="price" editorType="dxNumberBox">
       <dxo-label text="Precio"></dxo-label>
     </dxi-item>
+
     <dxi-item dataField="reserve" editorType="dxNumberBox">
       <dxo-label text="Reserva"></dxo-label>
     </dxi-item>
+
     <dxi-item
       dataField="description"
       editorType="dxTextArea"
@@ -64,6 +96,7 @@
       >
       </dxi-validation-rule>
     </dxi-item>
+
   </dx-form>
 
   <!-- table -->

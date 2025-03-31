@@ -5,6 +5,9 @@ import { CategoryServiceModel } from '../../shared/models';
 import { CategoryServiceService } from '../../shared/services/modules/category-service.service';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { CategoryServiceFormModule } from '../../shared/components/modules';
+import notify from 'devextreme/ui/notify';
+import { message } from '../../shared/constants/message';
+import { NOTIFY_SIZE, SET_TIMEOUT, TYPE_NOTIFY } from '../../shared/constants/utils';
 
 @Component({
   selector: 'app-category-service',
@@ -33,8 +36,16 @@ export class CategoryServiceComponent {
   //#region metodos & servicios
   // Método para cargar todas las categorías
   getAllCategories() {
-    this.categoryServiceService.getAll().subscribe((categories) => {
-      if (categories) this.categoryServices = categories;
+    this.categoryServiceService.getAll().subscribe({
+      next: (categories)=>{
+        this.categoryServices = categories
+      },
+      error: (err)=> notify({
+        message: message('las categorias', 'cargar', false),
+        width: NOTIFY_SIZE,
+      },
+      TYPE_NOTIFY.error,
+      SET_TIMEOUT),
     });
   }
 
@@ -43,22 +54,44 @@ export class CategoryServiceComponent {
     if (category.id) {
       // Actualizar categoría existente
       this.categoryServiceService.update(category).subscribe({
-        next: () => {
+        next: (success) => {
+          notify({
+            message: message('la categoria', 'actualizada', true),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.success,
+          SET_TIMEOUT)
           this.getAllCategories(); // Recargar categorías
           this.popupVisible = false; // Cerrar el popup
           this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) => notify({
+          message: message('la categoria', 'actualizar', false),
+          width: NOTIFY_SIZE,
+        },
+        TYPE_NOTIFY.error,
+        SET_TIMEOUT),
       });
     } else {
       // Crear nueva categoría
       this.categoryServiceService.create(category).subscribe({
         next: () => {
+          notify({
+            message: message('la categoria', 'guardada', true),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.success,
+          SET_TIMEOUT)
           this.getAllCategories(); // Recargar categorías
           this.popupVisible = false; // Cerrar el popup
           this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) => notify({
+          message: message('la categoria', 'guardar', false),
+          width: NOTIFY_SIZE,
+        },
+        TYPE_NOTIFY.error,
+        SET_TIMEOUT),
       });
     }
   }
@@ -75,7 +108,12 @@ export class CategoryServiceComponent {
         this.categoryService = categoryFound;
         this.showPopup();
       },
-      error: (err) => console.error(err.error.message),
+      error: (err) => notify({
+        message: message('la categoria', 'actualizar', false),
+        width: NOTIFY_SIZE,
+      },
+      TYPE_NOTIFY.error,
+      SET_TIMEOUT),
     });
   }
 
@@ -89,15 +127,26 @@ export class CategoryServiceComponent {
     }
 
     const confirmDelete = confirm(
-      '¿Estás seguro de que deseas eliminar esta categoría?'
+      '¿Estás seguro de que deseas cambiar el estado de esta categoría?'
     );
 
     if (confirmDelete) {
       this.categoryServiceService.changeStatus(id).subscribe({
-        next: () => {
+        next: (success) => {
+          notify({
+            message: message('la categoria', 'cambiada de estado', true),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.success,
+          SET_TIMEOUT)
           this.getAllCategories();
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) => notify({
+          message: message('la categoria', 'cambiar estado', false),
+          width: NOTIFY_SIZE,
+        },
+        TYPE_NOTIFY.error,
+        SET_TIMEOUT),
       });
     }
   }

@@ -41,7 +41,12 @@ export class ActivitiesComponent {
         next: (activities) => {
           this.activities = activities;
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) => notify({
+          message: message('las actividades', 'cargar', true),
+          width: NOTIFY_SIZE,
+        },
+        TYPE_NOTIFY.error,
+        SET_TIMEOUT),
       }
     );
   }
