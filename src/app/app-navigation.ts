@@ -29,4 +29,9 @@ export const navigation = [
     path: '/packages',
     icon: 'box',
   },
+  {
+    text: 'Reservations',
+    path: '/reservations',
+    icon: 'airplane',
+  },
 ];

@@ -23,14 +23,14 @@ import {
   CategoryServiceService,
   PackageService,
   PermitsService,
+  ReservationsService,
   RolesService,
   ServiceService,
 } from './shared/services/modules';
-import { ReservationsComponent } from './pages/reservations/reservations.component';
-import { ReservationsFormComponent } from './shared/components/modules/reservations-form/reservations-form.component';
+
 
 @NgModule({
-  declarations: [AppComponent, ReservationsComponent, ReservationsFormComponent],
+  declarations: [AppComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -56,7 +56,8 @@ import { ReservationsFormComponent } from './shared/components/modules/reservati
     ServiceService,
     ActivityService,
     PackageService,
-    RolesService
+    RolesService,
+    ReservationsService,
   ],
   bootstrap: [AppComponent],
 })

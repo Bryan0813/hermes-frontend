@@ -5,3 +5,6 @@ export * from './package';
 export * from './package-service';
 export * from './roles';
 export * from './municipality'
+export * from './reservations';
+export * from './user';
+export * from './traveler';

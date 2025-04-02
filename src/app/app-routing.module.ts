@@ -16,8 +16,14 @@ import {
   RolesComponent,
   ServicesComponent,
 } from './pages';
+import { ReservationsComponent } from './pages/reservations/reservations.component';
 
 const routes: Routes = [
+  {
+    path: 'reservations',
+    component: ReservationsComponent,
+    canActivate: [AuthGuardService],
+  },
   {
     path: 'packages',
     component: PackagesComponent,

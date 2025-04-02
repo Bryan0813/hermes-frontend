@@ -4,3 +4,4 @@ export * from './service.service';
 export * from './activity.service';
 export * from './package.service';
 export * from './roles.service';
+export * from './reservations.service';
