@@ -1,7 +1,6 @@
 export class MunicipalityModel {
-    id: number = 0;
-    code: boolean = true;
-    name: string = '';
-    idDepartment: number = 0;
-  }
-  
+  id = 0;
+  code = true;
+  name = '';
+  idDepartment = 0;
+}

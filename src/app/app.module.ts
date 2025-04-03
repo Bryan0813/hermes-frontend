@@ -58,7 +58,8 @@ import {
     PackageService,
     RolesService,
     ReservationsService,
+
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

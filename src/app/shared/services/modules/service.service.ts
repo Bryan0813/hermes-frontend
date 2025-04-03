@@ -6,7 +6,7 @@ import { ServiceModel } from '../../models';
 
 @Injectable()
 export class ServiceService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<ServiceModel[]> {
     return this.http.get<ServiceModel[]>(API.services);

@@ -4,7 +4,17 @@
   </dx-button>
 </div>
 
-<div class="container content-block">
+<!-- Panel de carga -->
+<div class="loading-overlay" *ngIf="loading">
+  <dx-load-indicator
+    [visible]="true"
+    [width]="60"
+    [height]="60"
+  ></dx-load-indicator>
+</div>
+
+<div class="container content-block" *ngIf="!loading">
+  <!-- Tabla de paquetes -->
   <dx-data-grid
     class="dx-card content-block"
     keyExpr="id"
@@ -16,7 +26,6 @@
     (onSelectionChanged)="getServiceByPackage($event)"
   >
     <!-- opciones de la tabla -->
-
     <dxo-search-panel
       [visible]="true"
       [highlightCaseSensitive]="true"
@@ -40,11 +49,10 @@
       caption="Actividad"
       dataType="string"
       alignment="left"
-      [editorOptions]="
-      {
+      [editorOptions]="{
         items: activities,
         valueField: 'id',
-        displayExpr: 'name',
+        displayExpr: 'name'
       }"
     ></dxi-column>
     <dxi-column
@@ -52,11 +60,10 @@
       caption="Lugar"
       dataType="string"
       alignment="left"
-      [editorOptions]="
-      {
+      [editorOptions]="{
         items: municipalities,
         valueField: 'id',
-        displayExpr: 'name',
+        displayExpr: 'name'
       }"
     ></dxi-column>
     <dxi-column
@@ -132,11 +139,10 @@
           caption="Servicio"
           dataType="number"
           alignment="left"
-          [editorOptions]="
-          {
+          [editorOptions]="{
             items: services,
             valueField: 'id',
-            displayExpr: 'name',
+            displayExpr: 'name'
           }"
         ></dxi-column>
         <dxi-column
@@ -164,8 +170,8 @@
 
   <app-popup
     [(visible)]="popupVisible"
-    [width]="1200"
-    [height]="650"
+    [width]="1000"
+    [height]="600"
     title="Paquete"
   >
     <app-packages-form

@@ -1,36 +1,92 @@
 <div class="header">
-  <h2>Categorias</h2>
+  <h2>Categorías</h2>
   <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
   </dx-button>
 </div>
 
-<div class="container content-block">
-  <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="categoryServices"
-    [showBorders]="true" [columnAutoWidth]="true" (onCellPrepared)="onCellPrepared($event)">
+<!-- Panel de carga -->
+<div class="loading-overlay" *ngIf="loading">
+  <dx-load-indicator
+    [visible]="true"
+    [width]="60"
+    [height]="60"
+  ></dx-load-indicator>
+</div>
+
+<div class="container content-block" *ngIf="!loading">
+  <!-- Tabla de categorías -->
+  <dx-data-grid
+    class="dx-card content-block"
+    keyExpr="id"
+    width="100%"
+    [dataSource]="categoryServices"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    (onCellPrepared)="onCellPrepared($event)"
+  >
     <!-- opciones de la tabla -->
-
-    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
-
+    <dxo-search-panel
+      [visible]="true"
+      [highlightCaseSensitive]="true"
+    ></dxo-search-panel>
 
     <!-- Columnas -->
-    <dxi-column dataField="id" caption="Identificador" dataType="number" alignment="left"></dxi-column>
-    <dxi-column dataField="name" caption="Nombre" dataType="string" alignment="left"></dxi-column>
-    <dxi-column dataField="status" caption="Estado" dataType="boolean" alignment="left"></dxi-column>
+    <dxi-column
+      dataField="id"
+      caption="Identificador"
+      dataType="number"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="name"
+      caption="Nombre"
+      dataType="string"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="status"
+      caption="Estado"
+      dataType="boolean"
+      alignment="left"
+    ></dxi-column>
 
     <!-- botones de accion -->
     <dxi-column type="buttons" alignment="left">
-      <dxi-button name="edit" icon="edit" [visible]="true" [onClick]="editCategoryService">
+      <dxi-button
+        name="edit"
+        icon="edit"
+        [visible]="true"
+        [onClick]="editCategoryService"
+      >
       </dxi-button>
-      <dxi-button name="delete" icon="refresh" [visible]="true" [onClick]="changeStatusCategoryService">
+      <dxi-button
+        name="delete"
+        icon="refresh"
+        [visible]="true"
+        [onClick]="changeStatusCategoryService"
+      >
       </dxi-button>
     </dxi-column>
 
     <dxo-paging [pageSize]="5"></dxo-paging>
-    <dxo-pager [showPageSizeSelector]="true" [showInfo]="true" [visible]="true"></dxo-pager>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [showInfo]="true"
+      [visible]="true"
+    ></dxo-pager>
   </dx-data-grid>
 
-  <app-popup [(visible)]="popupVisible" [width]="400" [height]="300" title="Categoria">
-    <app-category-service-form [categoryService]="categoryService" (onSave)="saveCategoryService($event)"
-      (onCancel)="closePopup()"></app-category-service-form>
+  <!-- Popup -->
+  <app-popup
+    [(visible)]="popupVisible"
+    [width]="400"
+    [height]="300"
+    title="Categoría"
+  >
+    <app-category-service-form
+      [categoryService]="categoryService"
+      (onSave)="saveCategoryService($event)"
+      (onCancel)="closePopup()"
+    ></app-category-service-form>
   </app-popup>
 </div>

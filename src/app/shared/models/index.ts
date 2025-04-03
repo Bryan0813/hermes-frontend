@@ -1,10 +1,11 @@
-export * from './category-service';
-export * from './service';
 export * from './activity';
-export * from './package';
+export * from './category-service';
+export * from './municipality';
 export * from './package-service';
+export * from './package';
 export * from './roles';
-export * from './municipality'
 export * from './reservations';
 export * from './user';
 export * from './traveler';
+export * from './service';
+

@@ -1,13 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxLoadIndicatorModule,
+} from 'devextreme-angular';
 import { CategoryServiceModel } from '../../shared/models';
 import { CategoryServiceService } from '../../shared/services/modules/category-service.service';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { CategoryServiceFormModule } from '../../shared/components/modules';
 import notify from 'devextreme/ui/notify';
 import { message } from '../../shared/constants/message';
-import { NOTIFY_SIZE, SET_TIMEOUT, TYPE_NOTIFY } from '../../shared/constants/utils';
+import {
+  NOTIFY_SIZE,
+  SET_TIMEOUT,
+  TYPE_NOTIFY,
+} from '../../shared/constants/utils';
 
 @Component({
   selector: 'app-category-service',
@@ -20,11 +28,13 @@ export class CategoryServiceComponent {
   popupVisible = false; // Variable para controlar la visibilidad del popup
   categoryService: CategoryServiceModel = new CategoryServiceModel(); // Categoría individual
   categoryServices: CategoryServiceModel[] = []; // Array de todas las categorías
+  loading = false; // Variable para controlar el indicador de carga
   //#endregion
 
   //#region constructor e init
   constructor(private categoryServiceService: CategoryServiceService) {
-    this.changeStatusCategoryService = this.changeStatusCategoryService.bind(this);
+    this.changeStatusCategoryService =
+      this.changeStatusCategoryService.bind(this);
     this.editCategoryService = this.editCategoryService.bind(this);
   }
 
@@ -36,62 +46,86 @@ export class CategoryServiceComponent {
   //#region metodos & servicios
   // Método para cargar todas las categorías
   getAllCategories() {
+    this.loading = true; // Mostrar indicador de carga
     this.categoryServiceService.getAll().subscribe({
-      next: (categories)=>{
-        this.categoryServices = categories
+      next: (categories) => {
+        this.categoryServices = categories;
+        this.loading = false; // Ocultar indicador de carga
       },
-      error: (err)=> notify({
-        message: message('las categorias', 'cargar', false),
-        width: NOTIFY_SIZE,
+      error: (err) => {
+        this.loading = false; // Ocultar indicador de carga
+        notify(
+          {
+            message: message('las categorías', 'cargar', false),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.error,
+          SET_TIMEOUT
+        );
       },
-      TYPE_NOTIFY.error,
-      SET_TIMEOUT),
     });
   }
 
   // Método para guardar una categoría
   saveCategoryService(category: CategoryServiceModel) {
+    this.loading = true; // Mostrar indicador de carga
     if (category.id) {
       // Actualizar categoría existente
       this.categoryServiceService.update(category).subscribe({
-        next: (success) => {
-          notify({
-            message: message('la categoria', 'actualizada', true),
-            width: NOTIFY_SIZE,
-          },
-          TYPE_NOTIFY.success,
-          SET_TIMEOUT)
+        next: () => {
+          notify(
+            {
+              message: message('la categoría', 'actualizada', true),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.success,
+            SET_TIMEOUT
+          );
           this.getAllCategories(); // Recargar categorías
           this.popupVisible = false; // Cerrar el popup
           this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) => notify({
-          message: message('la categoria', 'actualizar', false),
-          width: NOTIFY_SIZE,
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
+          notify(
+            {
+              message: message('la categoría', 'actualizar', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          );
         },
-        TYPE_NOTIFY.error,
-        SET_TIMEOUT),
       });
     } else {
       // Crear nueva categoría
       this.categoryServiceService.create(category).subscribe({
         next: () => {
-          notify({
-            message: message('la categoria', 'guardada', true),
-            width: NOTIFY_SIZE,
-          },
-          TYPE_NOTIFY.success,
-          SET_TIMEOUT)
+          notify(
+            {
+              message: message('la categoría', 'guardada', true),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.success,
+            SET_TIMEOUT
+          );
           this.getAllCategories(); // Recargar categorías
           this.popupVisible = false; // Cerrar el popup
           this.categoryService = new CategoryServiceModel(); // Reiniciar la categoría
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) => notify({
-          message: message('la categoria', 'guardar', false),
-          width: NOTIFY_SIZE,
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
+          notify(
+            {
+              message: message('la categoría', 'guardar', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          );
         },
-        TYPE_NOTIFY.error,
-        SET_TIMEOUT),
       });
     }
   }
@@ -108,16 +142,19 @@ export class CategoryServiceComponent {
         this.categoryService = categoryFound;
         this.showPopup();
       },
-      error: (err) => notify({
-        message: message('la categoria', 'actualizar', false),
-        width: NOTIFY_SIZE,
-      },
-      TYPE_NOTIFY.error,
-      SET_TIMEOUT),
+      error: (err) =>
+        notify(
+          {
+            message: message('la categoria', 'actualizar', false),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.error,
+          SET_TIMEOUT
+        ),
     });
   }
 
-  // Método para eliminar una categoría
+  // Método para cambiar el estado de una categoría
   changeStatusCategoryService($event: any): void {
     const id = $event.row.key;
 
@@ -131,22 +168,31 @@ export class CategoryServiceComponent {
     );
 
     if (confirmDelete) {
+      this.loading = true; // Mostrar indicador de carga
       this.categoryServiceService.changeStatus(id).subscribe({
-        next: (success) => {
-          notify({
-            message: message('la categoria', 'cambiada de estado', true),
-            width: NOTIFY_SIZE,
-          },
-          TYPE_NOTIFY.success,
-          SET_TIMEOUT)
+        next: () => {
+          notify(
+            {
+              message: message('la categoría', 'cambiada de estado', true),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.success,
+            SET_TIMEOUT
+          );
           this.getAllCategories();
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) => notify({
-          message: message('la categoria', 'cambiar estado', false),
-          width: NOTIFY_SIZE,
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
+          notify(
+            {
+              message: message('la categoría', 'cambiar estado', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          );
         },
-        TYPE_NOTIFY.error,
-        SET_TIMEOUT),
       });
     }
   }
@@ -193,6 +239,7 @@ export class CategoryServiceComponent {
   declarations: [CategoryServiceComponent],
   imports: [
     CommonModule,
+    DxLoadIndicatorModule,
     DxDataGridModule,
     DxButtonModule,
     PopupModule,
@@ -200,5 +247,5 @@ export class CategoryServiceComponent {
   ],
   exports: [CategoryServiceComponent],
 })
-export class CategoryServiceModule { }
+export class CategoryServiceModule {}
 //#endregion

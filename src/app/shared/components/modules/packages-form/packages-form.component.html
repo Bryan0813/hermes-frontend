@@ -1,7 +1,6 @@
 <div class="container">
   <!-- form -->
   <dx-form id="form" [formData]="package" labelLocation="left">
-
     <!-- Select para seleccionar una actividad -->
     <dxi-item dataField="name" editorType="dxTextBox">
       <dxo-label text="Nombre"></dxo-label>
@@ -46,7 +45,7 @@
         message="El municipio del paquete es obligatorio"
       ></dxi-validation-rule>
     </dxi-item>
-    
+
     <dxi-item
       dataField="level"
       editorType="dxSelectBox"
@@ -96,7 +95,6 @@
       >
       </dxi-validation-rule>
     </dxi-item>
-
   </dx-form>
 
   <!-- table -->
