@@ -3,7 +3,7 @@ import { Component, NgModule } from '@angular/core';
 import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { RolesFormModule } from '../../shared/components/modules';
-import { RolesModel } from '../../shared/models';
+import { RoleModel } from '../../shared/models';
 import { RolesService } from '../../shared/services/modules';
 
 @Component({
@@ -15,8 +15,8 @@ import { RolesService } from '../../shared/services/modules';
 export class RolesComponent {
   //#region variables
   popupVisible = false; // Variable para controlar la visibilidad del popup
-  role: RolesModel = new RolesModel(); // Rol individual
-  roles: RolesModel[] = []; // Array de todos los roles
+  role: RoleModel = new RoleModel(); // Rol individual
+  roles: RoleModel[] = []; // Array de todos los roles
   //#endregion
 
   //#region constructor e init
@@ -39,14 +39,14 @@ export class RolesComponent {
   }
 
   // Método para guardar un rol
-  saveRole(role: RolesModel) {
+  saveRole(role: RoleModel) {
     if (role.id) {
       // Actualizar rol existente
       this.roleService.update(role).subscribe({
         next: () => {
           this.getAllRoles(); // Recargar roles
           this.popupVisible = false; // Cerrar el popup
-          this.role = new RolesModel(); // Reiniciar el rol
+          this.role = new RoleModel(); // Reiniciar el rol
         },
         error: (err) => console.error(err.error.message),
       });
@@ -56,7 +56,7 @@ export class RolesComponent {
         next: () => {
           this.getAllRoles(); // Recargar roles
           this.popupVisible = false; // Cerrar el popup
-          this.role = new RolesModel(); // Reiniciar el rol
+          this.role = new RoleModel(); // Reiniciar el rol
         },
         error: (err) => console.error(err.error.message),
       });
@@ -113,7 +113,7 @@ export class RolesComponent {
   }
 
   closePopup() {
-    this.role = new RolesModel(); // Reiniciar el rol
+    this.role = new RoleModel(); // Reiniciar el rol
     this.popupVisible = false; // Cerrar el popup
   }
   //#endregion
@@ -131,5 +131,5 @@ export class RolesComponent {
   ],
   exports: [RolesComponent],
 })
-export class RolesModule { }
+export class RolesModule {}
 //#endregion
