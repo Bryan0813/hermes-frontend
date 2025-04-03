@@ -1,4 +1,6 @@
-const url = 'http://localhost:3000/';
+import { environment } from '../../../environments/environment';
+
+const url = environment.SERVER_URL;
 
 export const API = {
   auth: url + 'auth/',

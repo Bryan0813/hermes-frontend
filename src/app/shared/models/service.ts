@@ -1,7 +1,7 @@
 export class ServiceModel {
-  id: number = 0;
-  idCategoryServices: number = 0;
-  name: string = '';
-  price: number = 0;
-  status: boolean = true;
+  id = 0;
+  idCategoryServices = 0;
+  name = '';
+  price = 0;
+  status = true;
 }

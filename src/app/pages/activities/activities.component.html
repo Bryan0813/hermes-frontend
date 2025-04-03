@@ -4,34 +4,89 @@
   </dx-button>
 </div>
 
-<div class="container content-block">
-  <!-- table -->
-  <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="activities" [showBorders]="true"
-    [columnAutoWidth]="true" (onCellPrepared)="onCellPrepared($event)">
-    <!-- opciones de la tabla -->
+<!-- Panel de carga -->
+<div class="loading-overlay" *ngIf="loading">
+  <dx-load-indicator
+    [visible]="true"
+    [width]="60"
+    [height]="60"
+  ></dx-load-indicator>
+</div>
 
-    <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+<div class="container content-block" *ngIf="!loading">
+  <!-- Tabla de actividades -->
+  <dx-data-grid
+    class="dx-card content-block"
+    keyExpr="id"
+    width="100%"
+    [dataSource]="activities"
+    [showBorders]="true"
+    [columnAutoWidth]="true"
+    (onCellPrepared)="onCellPrepared($event)"
+  >
+    <!-- opciones de la tabla -->
+    <dxo-search-panel
+      [visible]="true"
+      [highlightCaseSensitive]="true"
+    ></dxo-search-panel>
 
     <!-- Columnas -->
-    <dxi-column dataField="id" caption="Identificador" dataType="number" alignment="left"></dxi-column>
-    <dxi-column dataField="name" caption="Nombre" dataType="string" alignment="left"></dxi-column>
-    <dxi-column dataField="status" caption="Estado" dataType="boolean" alignment="left"></dxi-column>
+    <dxi-column
+      dataField="id"
+      caption="Identificador"
+      dataType="number"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="name"
+      caption="Nombre"
+      dataType="string"
+      alignment="left"
+    ></dxi-column>
+    <dxi-column
+      dataField="status"
+      caption="Estado"
+      dataType="boolean"
+      alignment="left"
+    ></dxi-column>
 
     <!-- botones de accion -->
     <dxi-column type="buttons" width="100" alignment="left">
-      <dxi-button name="edit" icon="edit" [visible]="true" [onClick]="editActivity">
+      <dxi-button
+        name="edit"
+        icon="edit"
+        [visible]="true"
+        [onClick]="editActivity"
+      >
       </dxi-button>
-      <dxi-button name="delete" icon="refresh" [visible]="true" [onClick]="changeStatusActivity">
+      <dxi-button
+        name="delete"
+        icon="refresh"
+        [visible]="true"
+        [onClick]="changeStatusActivity"
+      >
       </dxi-button>
     </dxi-column>
 
     <dxo-paging [pageSize]="5"></dxo-paging>
-    <dxo-pager [showPageSizeSelector]="true" [showInfo]="true" [visible]="true"></dxo-pager>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [showInfo]="true"
+      [visible]="true"
+    ></dxo-pager>
   </dx-data-grid>
 
   <!-- Popup -->
-  <app-popup [(visible)]="popupVisible" [width]="400" [height]="300" title="Actividad">
-    <app-activity-form [activity]="activity" (onSave)="saveActivity($event)"
-      (onCancel)="closePopup()"></app-activity-form>
+  <app-popup
+    [(visible)]="popupVisible"
+    [width]="400"
+    [height]="300"
+    title="Actividad"
+  >
+    <app-activity-form
+      [activity]="activity"
+      (onSave)="saveActivity($event)"
+      (onCancel)="closePopup()"
+    ></app-activity-form>
   </app-popup>
 </div>

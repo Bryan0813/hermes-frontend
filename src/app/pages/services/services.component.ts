@@ -1,13 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, NgModule } from '@angular/core';
-import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxLoadIndicatorModule,
+} from 'devextreme-angular';
 import { ServiceModel } from '../../shared/models';
 import { PopupModule } from '../../shared/components/popup/popup.component';
 import { ServiceFormModule } from '../../shared/components/modules';
 import { ServiceService } from '../../shared/services/modules';
 import notify from 'devextreme/ui/notify';
 import { message } from '../../shared/constants/message';
-import { NOTIFY_SIZE, SET_TIMEOUT, TYPE_NOTIFY } from '../../shared/constants/utils';
+import {
+  NOTIFY_SIZE,
+  SET_TIMEOUT,
+  TYPE_NOTIFY,
+} from '../../shared/constants/utils';
 
 @Component({
   selector: 'app-services',
@@ -20,6 +28,7 @@ export class ServicesComponent {
   popupVisible = false; // Variable para controlar la visibilidad del popup
   service: ServiceModel = new ServiceModel(); // Servicio individual
   services: ServiceModel[] = []; // Array de todos los servicios
+  loading = false; // Variable para controlar el indicador de carga
   //#endregion
 
   //#region constructor e init
@@ -36,11 +45,14 @@ export class ServicesComponent {
   //#region metodos & servicios
   // Método para cargar todos los servicios
   getAllServices() {
+    this.loading = true; // Mostrar indicador de carga
     this.serviceService.getAll().subscribe({
       next: (services) => {
         this.services = services;
+        this.loading = false; // Ocultar indicador de carga
       },
-      error: (err) =>
+      error: (err) => {
+        this.loading = false; // Ocultar indicador de carga
         notify(
           {
             message: message('los servicios', 'cargar', false),
@@ -48,16 +60,18 @@ export class ServicesComponent {
           },
           TYPE_NOTIFY.error,
           SET_TIMEOUT
-        ),
+        );
+      },
     });
   }
 
   // Método para guardar un servicio
   saveService(service: ServiceModel) {
+    this.loading = true; // Mostrar indicador de carga
     if (service.id) {
       // Actualizar servicio existente
       this.serviceService.update(service).subscribe({
-        next: (success) => {
+        next: () => {
           notify(
             {
               message: message('el servicio', 'actualizado', true),
@@ -69,8 +83,10 @@ export class ServicesComponent {
           this.getAllServices(); // Recargar servicios
           this.popupVisible = false; // Cerrar el popup
           this.service = new ServiceModel(); // Reiniciar el servicio
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) =>
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
           notify(
             {
               message: message('el servicio', 'actualizar', false),
@@ -78,7 +94,8 @@ export class ServicesComponent {
             },
             TYPE_NOTIFY.error,
             SET_TIMEOUT
-          ),
+          );
+        },
       });
     } else {
       // Crear nuevo servicio
@@ -95,8 +112,10 @@ export class ServicesComponent {
           this.getAllServices(); // Recargar servicios
           this.popupVisible = false; // Cerrar el popup
           this.service = new ServiceModel(); // Reiniciar el servicio
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) =>
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
           notify(
             {
               message: message('el servicio', 'guardar', false),
@@ -104,7 +123,8 @@ export class ServicesComponent {
             },
             TYPE_NOTIFY.error,
             SET_TIMEOUT
-          ),
+          );
+        },
       });
     }
   }
@@ -147,6 +167,7 @@ export class ServicesComponent {
     );
 
     if (confirmDelete) {
+      this.loading = true; // Mostrar indicador de carga
       this.serviceService.changeStatus(id).subscribe({
         next: () => {
           notify(
@@ -158,8 +179,10 @@ export class ServicesComponent {
             SET_TIMEOUT
           );
           this.getAllServices();
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) =>
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
           notify(
             {
               message: message('el servicio', 'cambiar estado', false),
@@ -167,7 +190,8 @@ export class ServicesComponent {
             },
             TYPE_NOTIFY.error,
             SET_TIMEOUT
-          ),
+          );
+        },
       });
     }
   }
@@ -205,6 +229,7 @@ export class ServicesComponent {
   declarations: [ServicesComponent],
   imports: [
     CommonModule,
+    DxLoadIndicatorModule,
     DxDataGridModule,
     DxButtonModule,
     PopupModule,

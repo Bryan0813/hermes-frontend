@@ -3,13 +3,25 @@ import { Component, NgModule } from '@angular/core';
 import {
   DxButtonModule,
   DxDataGridModule,
-  DxTemplateModule,
+  DxLoadIndicatorModule,
 } from 'devextreme-angular';
 import { PackageModel } from '../../shared/models/package';
 import { PackageService } from '../../shared/services/modules/package.service';
 import { PopupModule } from '../../shared/components';
 import { PackagesFormModule } from '../../shared/components/modules';
-import { ActivityModel, MunicipalityModel, PackageServiceModel, ServiceModel } from '../../shared/models';
+import {
+  ActivityModel,
+  MunicipalityModel,
+  PackageServiceModel,
+  ServiceModel,
+} from '../../shared/models';
+import notify from 'devextreme/ui/notify';
+import { message } from '../../shared/constants/message';
+import {
+  NOTIFY_SIZE,
+  SET_TIMEOUT,
+  TYPE_NOTIFY,
+} from '../../shared/constants/utils';
 
 @Component({
   selector: 'app-packages',
@@ -27,6 +39,7 @@ export class PackagesComponent {
   activities: ActivityModel[] = []; // Array de actividades
   municipalities: MunicipalityModel[] = []; // Array de municipios
   idPackage: number = 0;
+  loading = false; // Variable para controlar el indicador de carga
   //#endregion
 
   //#region constructor e init
@@ -44,11 +57,23 @@ export class PackagesComponent {
   //#region metodos & servicios
   // Método para cargar todos los paquetes
   getAllPackages() {
+    this.loading = true; // Mostrar indicador de carga
     this.packageService.getAll().subscribe({
       next: (packages) => {
         this.packages = packages;
+        this.loading = false; // Ocultar indicador de carga
       },
-      error: (err) => console.error(err.error.message),
+      error: (err) => {
+        this.loading = false; // Ocultar indicador de carga
+        notify(
+          {
+            message: message('los paquetes', 'cargar', false),
+            width: NOTIFY_SIZE,
+          },
+          TYPE_NOTIFY.error,
+          SET_TIMEOUT
+        );
+      },
     });
   }
 
@@ -76,18 +101,30 @@ export class PackagesComponent {
 
   // Método para guardar un paquete y sus servicios
   savePackage(data: { pkg: PackageModel; services: PackageServiceModel[] }) {
-    const { pkg, services } = data; // Desestructurar el paquete y los servicios
+    this.loading = true; // Mostrar indicador de carga
+    const { pkg, services } = data;
 
     if (pkg.id) {
       // Actualizar paquete existente
       this.packageService.update(pkg).subscribe({
         next: () => {
-          this.saveServices(services); // Guardar los servicios asociados
-          this.getAllPackages(); // Recargar los paquetes
-          this.popupVisible = false; // Cerrar el popup
-          this.package = new PackageModel(); // Reiniciar el paquete
+          this.saveServices(services);
+          this.getAllPackages();
+          this.popupVisible = false;
+          this.package = new PackageModel();
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
+          notify(
+            {
+              message: message('el paquete', 'actualizar', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          );
+        },
       });
     } else {
       // Crear nuevo paquete
@@ -95,17 +132,27 @@ export class PackagesComponent {
         next: (pkgCreated) => {
           this.idPackage = pkgCreated.id;
 
-          // Asignar el ID del paquete a los servicios
           services.forEach((service) => {
             service.idPackage = this.idPackage;
           });
 
-          this.saveServices(services); // Guardar los servicios asociados
-          this.getAllPackages(); // Recargar los paquetes
-          this.popupVisible = false; // Cerrar el popup
-          this.package = new PackageModel(); // Reiniciar el paquete
+          this.saveServices(services);
+          this.getAllPackages();
+          this.popupVisible = false;
+          this.package = new PackageModel();
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
+          notify(
+            {
+              message: message('el paquete', 'guardar', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          );
+        },
       });
     }
   }
@@ -150,11 +197,23 @@ export class PackagesComponent {
     );
 
     if (confirmChange) {
+      this.loading = true; // Mostrar indicador de carga
       this.packageService.changeStatus(id).subscribe({
         next: () => {
           this.getAllPackages();
+          this.loading = false; // Ocultar indicador de carga
         },
-        error: (err) => console.error(err.error.message),
+        error: (err) => {
+          this.loading = false; // Ocultar indicador de carga
+          notify(
+            {
+              message: message('el paquete', 'cambiar estado', false),
+              width: NOTIFY_SIZE,
+            },
+            TYPE_NOTIFY.error,
+            SET_TIMEOUT
+          );
+        },
       });
     }
   }
@@ -180,7 +239,7 @@ export class PackagesComponent {
     }, 0);
   }
 
-  // 
+  //
   closePopup() {
     this.package = new PackageModel();
     this.popupVisible = false;
@@ -204,9 +263,9 @@ export class PackagesComponent {
   declarations: [PackagesComponent],
   imports: [
     CommonModule,
+    DxLoadIndicatorModule,
     DxDataGridModule,
     DxButtonModule,
-    DxTemplateModule,
     PopupModule,
     PackagesFormModule,
   ],

@@ -2,11 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AppInfoService {
-  constructor() {}
-
-  public get title() {
-    return 'Hermes';
-  }
+  public readonly title: string = 'Hermes';
 
   public get currentYear() {
     return new Date().getFullYear();

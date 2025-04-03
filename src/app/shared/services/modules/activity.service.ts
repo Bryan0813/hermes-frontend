@@ -6,7 +6,7 @@ import { ActivityModel } from '../../models';
 
 @Injectable()
 export class ActivityService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<ActivityModel[]> {
     return this.http.get<ActivityModel[]>(API.activities);
@@ -21,7 +21,10 @@ export class ActivityService {
   }
 
   update(activity: ActivityModel): Observable<ActivityModel[]> {
-    return this.http.put<ActivityModel[]>(API.activities + activity.id, activity);
+    return this.http.put<ActivityModel[]>(
+      API.activities + activity.id,
+      activity
+    );
   }
 
   changeStatus(id: number): Observable<ActivityModel[]> {

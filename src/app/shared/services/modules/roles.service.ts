@@ -6,7 +6,7 @@ import { RolesModel } from '../../models';
 
 @Injectable()
 export class RolesService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<RolesModel[]> {
     return this.http.get<RolesModel[]>(API.roles);
@@ -17,17 +17,11 @@ export class RolesService {
   }
 
   create(roles: RolesModel): Observable<RolesModel> {
-    return this.http.post<RolesModel>(
-      API.roles,
-      roles
-    );
+    return this.http.post<RolesModel>(API.roles, roles);
   }
 
   update(roles: RolesModel): Observable<RolesModel> {
-    return this.http.put<RolesModel>(
-      API.roles + roles.id,
-      roles
-    );
+    return this.http.put<RolesModel>(API.roles + roles.id, roles);
   }
 
   delete(id: number): Observable<RolesModel> {
