@@ -3,9 +3,10 @@ export class PackageModel {
   name = '';
   idActivity = 0;
   idMunicipality = 0;
-  level: number | null = 0;
+  level = 0;
   price = 0;
   reserve = 0;
   description = '';
+  image = '';
   status = true;
 }

@@ -1,27 +1,33 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, NgModule, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  NgModule,
+  Output,
+} from '@angular/core';
 import { DxButtonModule, DxFormModule } from 'devextreme-angular';
-import { RolesModel, ServiceModel } from '../../../models';
+import { RoleModel, ServiceModel } from '../../../models';
 
 @Component({
   selector: 'app-roles-form',
   standalone: false,
   templateUrl: './roles-form.component.html',
-  styleUrl: './roles-form.component.scss'
+  styleUrl: './roles-form.component.scss',
 })
 export class RolesFormComponent {
-  @Input() role: RolesModel = new RolesModel(); 
-  @Output() onSave = new EventEmitter<RolesModel>(); 
-  @Output() onCancel = new EventEmitter<void>(); 
-  
-  services: ServiceModel[] = []; 
+  @Input() role: RoleModel = new RoleModel();
+  @Output() onSave = new EventEmitter<RoleModel>();
+  @Output() onCancel = new EventEmitter<void>();
+
+  services: ServiceModel[] = [];
 
   save() {
-    this.onSave.emit(this.role); 
+    this.onSave.emit(this.role);
   }
 
   cancel() {
-    this.onCancel.emit(); 
+    this.onCancel.emit();
   }
 }
 
@@ -30,4 +36,4 @@ export class RolesFormComponent {
   declarations: [RolesFormComponent],
   exports: [RolesFormComponent],
 })
-export class RolesFormModule { }
+export class RolesFormModule {}
