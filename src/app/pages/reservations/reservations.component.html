@@ -1,0 +1,46 @@
+<div class="header">
+    <h2>Reservas</h2>
+    <dx-button text="Crear" type="default" icon="add" (onClick)="showPopup()">
+    </dx-button>
+</div>
+
+<div class="container content-block">
+    <dx-data-grid class="dx-card content-block" keyExpr="id" width="100%" [dataSource]="reservations"
+        [showBorders]="true" [columnAutoWidth]="true" (onCellPrepared)="onCellPrepared($event)">
+        <!-- opciones de la tabla -->
+        <dxo-search-panel [visible]="true" [highlightCaseSensitive]="true"></dxo-search-panel>
+
+        <!-- Columnas -->
+        <dxi-column dataField="id" caption="Identificador" dataType="number" alignment="left"></dxi-column>
+        <dxi-column dataField="name" caption="Nombre" dataType="string" alignment="left"></dxi-column>
+        <dxi-column dataField="status" caption="Estado" dataType="boolean" alignment="center">
+        </dxi-column>
+
+        <!-- botones de acción -->
+        <dxi-column type="buttons" alignment="left">
+            <dxi-button name="edit" icon="edit" [visible]="true" (onClick)="editReservation($event)">
+            </dxi-button>
+            <dxi-button name="delete" icon="refresh" [visible]="true" (onClick)="changeStatus($event)">
+            </dxi-button>
+        </dxi-column>
+
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-master-detail [enabled]="false" template="details"></dxo-master-detail>
+        <div *dxTemplate="let detail of 'details'">
+            <dx-data-grid class="dx-card content-block" keyExpr="id" [dataSource]="travelersByReservation"
+                [columnAutoWidth]="true">
+                <!-- Columnas -->
+
+                <dxi-column dataField="idTraveler" caption="Viajero" dataType="string" alignment="left"></dxi-column>
+            </dx-data-grid>
+        </div>
+
+        <dxo-paging [pageSize]="5"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [showInfo]="true" [visible]="true"></dxo-pager>
+    </dx-data-grid>
+
+    <app-popup [(visible)]="popupVisible" [width]="800" [height]="400" title="Reserva">
+        <!-- <app-reservations-form [reservation]="reservation" (onSaveReservation)="saveReservation($event)"
+            (onCancel)="closePopup()"></app-reservations-form> -->
+    </app-popup>
+</div>

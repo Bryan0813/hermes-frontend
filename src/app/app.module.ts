@@ -23,9 +23,11 @@ import {
   CategoryServiceService,
   PackageService,
   PermitsService,
+  ReservationsService,
   RolesService,
   ServiceService,
 } from './shared/services/modules';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -55,6 +57,8 @@ import {
     ActivityService,
     PackageService,
     RolesService,
+    ReservationsService,
+
   ],
   bootstrap: [AppComponent],
 })
