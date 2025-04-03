@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   min-height: 100%;
   height: 100%;
@@ -54,7 +55,7 @@ html, body {
   }
 
   .side-nav-outer-toolbar .dx-drawer {
-    height: calc(100% - 56px)
+    height: calc(100% - 56px);
   }
 
   .content-block {
@@ -77,8 +78,10 @@ html, body {
     border-left: 0;
   }
 
-  .with-footer > .dx-scrollable-wrapper >
-  .dx-scrollable-container > .dx-scrollable-content {
+  .with-footer
+    > .dx-scrollable-wrapper
+    > .dx-scrollable-container
+    > .dx-scrollable-content {
     height: 100%;
 
     & > .dx-scrollview-content {
@@ -93,7 +96,8 @@ html, body {
   .dx-drawer-wrapper {
     .dx-drawer-panel-content,
     .dx-overlay-content {
-      box-shadow: 0 4px 4px 0 var(--shadow-color-first), 0 1px 2px 0 var(--shadow-color-second);
+      box-shadow: 0 4px 4px 0 var(--shadow-color-first),
+        0 1px 2px 0 var(--shadow-color-second);
     }
   }
 }

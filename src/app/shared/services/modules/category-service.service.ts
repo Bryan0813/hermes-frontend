@@ -6,7 +6,7 @@ import { API } from '../../constants/api';
 
 @Injectable()
 export class CategoryServiceService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<CategoryServiceModel[]> {
     return this.http.get<CategoryServiceModel[]>(API.categoryServices);
@@ -16,14 +16,18 @@ export class CategoryServiceService {
     return this.http.get<CategoryServiceModel>(API.categoryServices + id);
   }
 
-  create(categoryService: CategoryServiceModel): Observable<CategoryServiceModel> {
+  create(
+    categoryService: CategoryServiceModel
+  ): Observable<CategoryServiceModel> {
     return this.http.post<CategoryServiceModel>(
       API.categoryServices,
       categoryService
     );
   }
 
-  update(categoryService: CategoryServiceModel): Observable<CategoryServiceModel> {
+  update(
+    categoryService: CategoryServiceModel
+  ): Observable<CategoryServiceModel> {
     return this.http.put<CategoryServiceModel>(
       API.categoryServices + categoryService.id,
       categoryService

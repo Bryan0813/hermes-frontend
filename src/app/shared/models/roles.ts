@@ -1,5 +1,5 @@
 export class RolesModel {
-    id: number = 0;
-    name: string = '';
-    status: boolean = true;
+  id = 0;
+  name = '';
+  status = true;
 }

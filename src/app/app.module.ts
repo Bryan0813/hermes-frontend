@@ -54,8 +54,8 @@ import {
     ServiceService,
     ActivityService,
     PackageService,
-    RolesService
+    RolesService,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
