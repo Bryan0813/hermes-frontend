@@ -7,7 +7,11 @@ import {
 } from 'devextreme-angular';
 
 import { PopupModule } from '../../shared/components';
-import { ReservationsModel, TravelerModel, UserModel } from '../../shared/models';
+import {
+  ReservationModel,
+  ReservationTravelerModel,
+  UserModel,
+} from '../../shared/models';
 import { ReservationsService } from '../../shared/services/modules';
 
 @Component({
@@ -19,9 +23,9 @@ import { ReservationsService } from '../../shared/services/modules';
 export class ReservationsComponent {
   //#region variables
   popupVisible = false; // Variable para controlar la visibilidad del popup
-  reservation: ReservationsModel = new ReservationsModel(); // Reserva individual
-  travelersByReservation: TravelerModel[] = []; // Array de viajeros por reserva (no se utiliza en el código actual)
-  reservations: ReservationsModel[] = []; // Array de todas las reservas
+  reservation: ReservationModel = new ReservationModel(); // Reserva individual
+  travelersByReservation: ReservationTravelerModel[] = []; // Array de viajeros por reserva (no se utiliza en el código actual)
+  reservations: ReservationModel[] = []; // Array de todas las reservas
   idReservation: number = 0; // ID de la reserva seleccionada
   users: UserModel[] = []; // Array de usuarios (no se utiliza en el código actual)
   //#endregion
@@ -49,14 +53,14 @@ export class ReservationsComponent {
   }
 
   // Método para guardar una reserva
-  saveReservation(data: ReservationsModel) {
+  saveReservation(data: ReservationModel) {
     if (data.id) {
       // Actualizar reserva existente
       this.reservationsService.update(data).subscribe({
         next: () => {
           this.getAllReservations(); // Recargar las reservas
           this.popupVisible = false; // Cerrar el popup
-          this.reservation = new ReservationsModel(); // Reiniciar la reserva
+          this.reservation = new ReservationModel(); // Reiniciar la reserva
         },
         error: (err) => console.error(err.error.message),
       });
@@ -66,7 +70,7 @@ export class ReservationsComponent {
         next: (reservationCreated) => {
           this.getAllReservations(); // Recargar las reservas
           this.popupVisible = false; // Cerrar el popup
-          this.reservation = new ReservationsModel(); // Reiniciar la reserva
+          this.reservation = new ReservationModel(); // Reiniciar la reserva
         },
         error: (err) => console.error(err.error.message),
       });
@@ -90,14 +94,10 @@ export class ReservationsComponent {
   }
   // Metodo para cargar el usuario dependiendo del idTraveler que es igual al idUser
   getTraveler(idTraveler: number): UserModel {
-    const traveler = this.users.find(
-      (user) => user.id === idTraveler
-    );
-    const travelerFound = traveler
-      ? traveler
-      : new UserModel();
+    const traveler = this.users.find((user) => user.id === idTraveler);
+    const travelerFound = traveler ? traveler : new UserModel();
 
-    return travelerFound ;
+    return travelerFound;
   }
 
   // Método para cambiar el estado de una reserva
@@ -136,7 +136,7 @@ export class ReservationsComponent {
 
   // Método para cerrar el popup
   closePopup() {
-    this.reservation = new ReservationsModel();
+    this.reservation = new ReservationModel();
     this.popupVisible = false;
   }
   //#endregion
@@ -153,8 +153,7 @@ export class ReservationsComponent {
   onCellPreparedTraveler(e: any) {
     if (e.rowType === 'data' && e.column.dataField === 'idTraveler') {
       const traveler = this.getTraveler(e.data.idTraveler);
-      e.cellElement.textContent =
-        traveler.name + ' ' + traveler.surName;
+      e.cellElement.textContent = traveler.name + ' ' + traveler.surName;
     }
   }
   //#endregion
@@ -172,5 +171,5 @@ export class ReservationsComponent {
   ],
   exports: [ReservationsComponent],
 })
-export class ReservationsModule { }
+export class ReservationsModule {}
 //#endregion
